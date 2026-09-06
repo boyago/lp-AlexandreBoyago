@@ -1,4 +1,4 @@
-// SocialProof — 9.500 alunos + portfólio de produtos + plataforma EaD
+// SocialProof: 9.500 alunos + portfólio de produtos + plataforma EaD
 // Estilo: terminal com "query" ao vivo + cards com os dados.
 
 function SocialProof() {
@@ -32,14 +32,14 @@ function SocialProof() {
             <div style={proofStyles.cardBig}>WizMarket<br/><span style={{fontSize: '0.48em', color: '#00ff88'}}>ex-DrOwl</span></div>
             <div style={proofStyles.cardLabel}>plataforma EaD global</div>
             <div style={proofStyles.cardDesc}>
-              Construí uma plataforma focada na economia criadora — hospedagem e
+              Construí uma plataforma focada na economia criadora, com hospedagem e
               venda de cursos, pós, e-books, eventos e mentorias. Nasceu como
               DrOwl; hoje sou co-fundador da operação global.
             </div>
           </div>
         </div>
 
-        {/* Portfólio de produtos — card destacado, full width */}
+        {/* Portfólio de produtos: card destacado, full width */}
         <div style={proofStyles.featureCard}>
           <div style={proofStyles.featureLeft}>
             <div style={proofStyles.featureTag}>// PORTFOLIO · FUNDADOR & CO-FUNDADOR</div>
@@ -80,7 +80,7 @@ function SocialProof() {
               "Não existe outro lugar onde você vai aprender full-stack com
               IA no ritmo que a própria IA está evoluindo. O CODEX 360 é isso."
             </p>
-            <div style={proofStyles.quoteAuthor}>— Alexandre Boyago, sobre seu novo curso</div>
+            <div style={proofStyles.quoteAuthor}>Alexandre Boyago, sobre seu novo curso</div>
           </div>
         </div>
       </div>

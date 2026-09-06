@@ -1,4 +1,4 @@
-// Variação C — Editorial Maximalista / Manifesto Punk
+// Variação C: Editorial Maximalista / Manifesto Punk
 // Off-white + preto + vermelho-sangue. Tipografia GIGANTE quebrando o grid.
 
 function HeroManifesto() {
@@ -50,13 +50,13 @@ function HeroManifesto() {
             <p style={manifestoStyles.sub}>
               Nove mil e quinhentos alunos. Uma plataforma EaD. Sete produtos
               no ar. E mesmo assim, <span style={manifestoStyles.underline}>decidi queimar o
-              curso antigo</span> — porque a IA já queimou o mercado para quem
+              curso antigo</span>, porque a IA já queimou o mercado para quem
               não se atualiza.
             </p>
           </div>
         </div>
 
-        {/* Right column — photo + box */}
+        {/* Right column: photo + box */}
         <div style={manifestoStyles.rightCol}>
           <div style={manifestoStyles.photoWrap}>
             <img src="assets/alexandre.png" alt="Alexandre Boyago" style={manifestoStyles.photo} />
@@ -83,7 +83,7 @@ function HeroManifesto() {
         </div>
       </div>
 
-      {/* Bottom columns — newspaper style */}
+      {/* Bottom columns: newspaper style */}
       <div style={manifestoStyles.bottomGrid}>
         <div style={manifestoStyles.bottomCol}>
           <div style={manifestoStyles.bottomNum}>01.</div>
@@ -105,7 +105,7 @@ function HeroManifesto() {
           <div style={manifestoStyles.bottomNum}>03.</div>
           <div style={manifestoStyles.bottomHead}>DIFERENCIAL</div>
           <div style={manifestoStyles.bottomBody}>
-            Aprenda não as ferramentas — aprenda o <em>processo</em>.
+            Não aprenda apenas as ferramentas. Aprenda o <em>processo</em>.
             Lives diárias. Mentoria ao vivo. Comunidade. Eu, junto.
           </div>
         </div>
@@ -113,8 +113,8 @@ function HeroManifesto() {
           <div style={manifestoStyles.bottomNum}>04.</div>
           <div style={manifestoStyles.bottomHead}>PROVA</div>
           <div style={manifestoStyles.bottomBody}>
-            9.500+ alunos. Plataforma EaD própria. 7 produtos no ar — de
-            SaaS com IA a ERP. Isso não é um teste — é o próximo padrão.
+            9.500+ alunos. Plataforma EaD própria. 7 produtos no ar, de
+            SaaS com IA a ERP. Isso não é um teste. É o próximo padrão.
           </div>
         </div>
       </div>

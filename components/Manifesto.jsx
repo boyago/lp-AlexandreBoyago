@@ -1,4 +1,4 @@
-// Manifesto — "Por que destruí meu próprio curso"
+// Manifesto: "Por que destruí meu próprio curso"
 // Carta aberta em primeira pessoa, tipografia limpa, pausa após o Hero.
 
 function Manifesto() {
@@ -18,7 +18,7 @@ function Manifesto() {
 
         <div style={manifestoStyles.body}>
           <p style={manifestoStyles.p}>
-            Sou <strong style={manifestoStyles.white}>Alexandre Boyago</strong> — 26+ anos como dev e designer,
+            Sou <strong style={manifestoStyles.white}>Alexandre Boyago</strong>, com 26+ anos como dev e designer,
             formado e pós-graduado em TI. Criei sites, softwares e apps para inúmeros clientes,
             e hoje vivo do jeito que sempre quis: trabalhando de qualquer lugar do mundo,
             ganhando bem, sem sacrificar minha liberdade criativa.
@@ -31,7 +31,7 @@ function Manifesto() {
             coordenador de curso há mais de 10 anos na ETEC. Essa plataforma nasceu como DrOwl
             e hoje é a <strong style={manifestoStyles.white}>WizMarket</strong>, da qual sou co-fundador.
             Além dela, criei <strong style={manifestoStyles.white}>OmniLabs, ServiOS, RingLingo,
-            Menu Dash+ e LeadCloser</strong> — produtos reais, no ar, em produção.
+            Menu Dash+ e LeadCloser</strong>. Produtos reais, no ar, em produção.
           </p>
 
           <p style={manifestoStyles.p}>
@@ -51,7 +51,7 @@ function Manifesto() {
           <p style={manifestoStyles.p}>
             Escolhi queimar. Passei <strong style={manifestoStyles.white}>11 meses reescrevendo o curso do zero</strong>
             &nbsp;com as ferramentas que realmente importam em 2026. O resultado é o
-            &nbsp;<span style={manifestoStyles.green}>CODEX 360</span> — full-stack com IA, do primeiro commit
+            &nbsp;<span style={manifestoStyles.green}>CODEX 360</span>: full-stack com IA, do primeiro commit
             à VPS em produção.
           </p>
 
@@ -62,7 +62,7 @@ function Manifesto() {
           </p>
 
           <div style={manifestoStyles.signature}>
-            <div style={manifestoStyles.sigName}>— Alexandre Boyago</div>
+            <div style={manifestoStyles.sigName}>Alexandre Boyago</div>
             <div style={manifestoStyles.sigRole}>fundador · dev 360 · codex 360</div>
           </div>
         </div>

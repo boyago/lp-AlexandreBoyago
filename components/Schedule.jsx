@@ -1,4 +1,4 @@
-// Schedule — cronograma / mentoria ao vivo / comunidade
+// Schedule: cronograma / mentoria ao vivo / comunidade
 
 function Schedule() {
   return (
@@ -11,7 +11,7 @@ function Schedule() {
             Sem gravação reciclada.
           </h2>
           <p style={schedStyles.sub}>
-            Nenhum curso gravado em 2026 vai te segurar — o ritmo da IA é semanal.
+            Nenhum curso gravado em 2026 vai te segurar. O ritmo da IA é semanal.
             Por isso o CODEX 360 é <span style={schedStyles.white}>aulas ao vivo, lives diárias e mentoria em grupo</span>.
             Conteúdo é entregue em tempo real, na mesma velocidade em que as ferramentas evoluem.
           </p>

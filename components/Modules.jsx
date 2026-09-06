@@ -1,4 +1,4 @@
-// Modules — o que o aluno vai construir / módulos do curso
+// Modules: o que o aluno vai construir / módulos do curso
 // Layout tipo estrutura de pastas (file tree) à esquerda + descrição à direita.
 
 function Modules() {
@@ -12,7 +12,7 @@ function Modules() {
     {
       n: '02', name: 'claude-code.module',
       title: 'Claude Code em produção',
-      body: 'Do zero ao pair-programming avançado. Como fazer o Claude escrever, refatorar e testar projetos reais — não demos de YouTube.',
+      body: 'Do zero ao pair-programming avançado. Como fazer o Claude escrever, refatorar e testar projetos reais, não demos de YouTube.',
       items: ['primeiro-projeto.tsx', 'refactor-agent.py', 'testes-automatizados.md'],
     },
     {
@@ -65,7 +65,7 @@ function Modules() {
             O que você <span style={modulesStyles.green}>vai construir</span>.
           </h2>
           <p style={modulesStyles.sub}>
-            Não é teoria. Cada módulo termina com um projeto real no ar —
+            Não é teoria. Cada módulo termina com um projeto real no ar,
             commitado no seu Git, rodando na sua VPS, acessível por URL pública.
           </p>
         </div>

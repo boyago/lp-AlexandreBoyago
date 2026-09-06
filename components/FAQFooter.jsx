@@ -5,15 +5,15 @@ function FAQ() {
   const qs = [
     {
       q: 'Preciso saber programar pra entrar?',
-      a: 'Sim, pelo menos o básico. Você precisa entender o que é uma função, uma requisição HTTP e um git commit. O CODEX 360 multiplica quem já programa — não ensina do zero absoluto. Se você é total iniciante, fale comigo antes.',
+      a: 'Sim, pelo menos o básico. Você precisa entender o que é uma função, uma requisição HTTP e um git commit. O CODEX 360 multiplica quem já programa, mas não ensina do zero absoluto. Se você é total iniciante, fale comigo antes.',
     },
     {
       q: 'Quanto tempo dura o curso?',
-      a: '26 semanas de aulas ao vivo + lives diárias enquanto o programa durar. Mas você sai entregando projetos desde a semana 2 — não é um curso que você "termina e começa a fazer".',
+      a: '26 semanas de aulas ao vivo + lives diárias enquanto o programa durar. Mas você sai entregando projetos desde a semana 2. Não é um curso que você "termina e começa a fazer".',
     },
     {
       q: 'E se eu já for aluno do Dev 360 antigo?',
-      a: 'Ainda estou decidindo a política exata de upgrade. Entrando na lista de espera, você recebe primeiro essa informação — e provavelmente com condição especial de aluno legado.',
+      a: 'Ainda estou decidindo a política exata de upgrade. Entrando na lista de espera, você recebe primeiro essa informação, provavelmente com condição especial de aluno legado.',
     },
     {
       q: 'Qual o investimento?',
@@ -25,7 +25,7 @@ function FAQ() {
     },
     {
       q: 'Tem certificado?',
-      a: 'Tem, mas foco zero nisso. O que vale no mercado de 2026 é seu portfólio no ar — não um PDF. O CODEX 360 te dá projetos reais pra mostrar, não um selo.',
+      a: 'Tem, mas foco zero nisso. O que vale no mercado de 2026 é seu portfólio no ar, não um PDF. O CODEX 360 te dá projetos reais pra mostrar, não um selo.',
     },
   ];
 

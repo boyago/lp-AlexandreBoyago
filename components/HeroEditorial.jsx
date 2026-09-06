@@ -1,4 +1,4 @@
-// Variação A — Editorial Executivo
+// Variação A: Editorial Executivo
 // Preto profundo + azul-marinho + accent dourado, serifa display pesada.
 // Tom: Wall Street Journal encontra AI.
 
@@ -19,8 +19,8 @@ function HeroEditorial() {
 
       {/* Thin gold divider */}
       <div style={editorialStyles.divider}>
-        <span style={editorialStyles.kicker}>MANIFESTO Nº 01 — A ERA DO CÓDIGO ACABOU</span>
-        <span style={editorialStyles.kickerRight}>— POR A. BOYAGO</span>
+        <span style={editorialStyles.kicker}>MANIFESTO Nº 01 | A ERA DO CÓDIGO ACABOU</span>
+        <span style={editorialStyles.kickerRight}>POR A. BOYAGO</span>
       </div>
 
       {/* Hero main */}
@@ -40,7 +40,7 @@ function HeroEditorial() {
           <p style={editorialStyles.sub}>
             Enquanto 9.500 alunos ainda digitam código linha por linha,
             construí uma nova versão do <strong>Dev 360</strong> para a era em que
-            apps inteiros nascem em uma tarde — com <span style={editorialStyles.bold}>Claude, Antigravity, GPT-5 e Gemini</span>.
+            apps inteiros nascem em uma tarde com <span style={editorialStyles.bold}>Claude, Antigravity, GPT-5 e Gemini</span>.
           </p>
 
           <div style={editorialStyles.ctaRow}>

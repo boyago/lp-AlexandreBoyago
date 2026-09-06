@@ -1,4 +1,4 @@
-// Variação B — Dark Tech Brutalista
+// Variação B: Dark Tech Brutalista
 // Preto puro + verde terminal + mono-type. Tom hacker / raw / provocador.
 
 function HeroBrutalist() {
@@ -11,12 +11,12 @@ function HeroBrutalist() {
           <span style={{...brutalistStyles.dot, background: '#ffbd2e'}}></span>
           <span style={{...brutalistStyles.dot, background: '#27c93f'}}></span>
         </div>
-        <div style={brutalistStyles.terminalPath}>~/alexandre-boyago/codex-360 — bash</div>
+        <div style={brutalistStyles.terminalPath}>~/alexandre-boyago/codex-360 | bash</div>
         <div style={brutalistStyles.terminalStatus}>● LIVE</div>
       </div>
 
       <div style={brutalistStyles.body}>
-        {/* Left column — terminal text */}
+        {/* Left column: terminal text */}
         <div style={brutalistStyles.leftCol}>
           <div style={brutalistStyles.promptLine}>
             <span style={brutalistStyles.promptUser}>alexandre@boyago</span>
@@ -66,7 +66,7 @@ function HeroBrutalist() {
           </div>
         </div>
 
-        {/* Right column — photo card */}
+        {/* Right column: photo card */}
         <div style={brutalistStyles.rightCol}>
           <div style={brutalistStyles.photoCard}>
             <div style={brutalistStyles.photoHeader}>

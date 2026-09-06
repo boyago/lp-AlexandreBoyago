@@ -1,4 +1,4 @@
-// Hero — versão refinada da direção B para a landing completa.
+// Hero: versão refinada da direção B para a landing completa.
 // Foto nova (eu.png) tem fundo branco+glow verde → integra PERFEITAMENTE
 // com o tema terminal-hacker. Removi os filtros hue-rotate/mix-blend.
 
@@ -28,7 +28,7 @@ function Hero() {
           <span style={{...heroStyles.dot, background: '#ffbd2e'}}></span>
           <span style={{...heroStyles.dot, background: '#27c93f'}}></span>
         </div>
-        <div style={heroStyles.terminalPath}>~/alexandre-boyago/codex-360 — bash — 160×48</div>
+        <div style={heroStyles.terminalPath}>~/alexandre-boyago/codex-360 | bash | 160×48</div>
         <div style={heroStyles.terminalStatus}>● LIVE · LISTA ABERTA</div>
       </div>
 
@@ -43,7 +43,7 @@ function Hero() {
           </div>
 
           <div style={heroStyles.commentBlock}>
-            <div>// MANIFESTO.md — edição 2026</div>
+            <div>// MANIFESTO.md | edição 2026</div>
             <div>// autor: alexandre boyago · 9.500+ alunos · 7 produtos no ar</div>
           </div>
 
@@ -60,7 +60,7 @@ function Hero() {
             9.500 alunos me pagaram pra ensinar a <span style={heroStyles.strike}>programar linha por linha</span>.
             <br/>
             Em 2026, isso virou obsoleto. Então <span style={heroStyles.white}>queimei o curso antigo</span>
-            &nbsp;e construí o <span style={heroStyles.green}>CODEX 360</span> —
+            &nbsp;e construí o <span style={heroStyles.green}>CODEX 360</span>,
             full-stack com <span style={heroStyles.white}>Claude, Antigravity, GPT-5, Gemini e VPS.</span>
           </p>
 
@@ -92,7 +92,7 @@ function Hero() {
           </div>
         </div>
 
-        {/* Right column — photo card */}
+        {/* Right column: photo card */}
         <div style={heroStyles.rightCol}>
           <div style={heroStyles.photoCard}>
             <div style={heroStyles.photoHeader}>

@@ -1,4 +1,4 @@
-// Waitlist — CTA final forte + formulário de lista de espera.
+// Waitlist: CTA final forte + formulário de lista de espera.
 
 function Waitlist() {
   const [submitted, setSubmitted] = React.useState(false);
@@ -18,7 +18,7 @@ function Waitlist() {
         <div style={wStyles.inner}>
           <div style={wStyles.kicker}>
             <span style={wStyles.pulse}></span>
-            // WAITLIST.sh — lista de espera aberta
+            // WAITLIST.sh: lista de espera aberta
           </div>
 
           <h2 style={wStyles.title}>
@@ -28,7 +28,7 @@ function Waitlist() {
 
           <p style={wStyles.sub}>
             Turmas fechadas. Sem pré-venda pública. A lista de espera é o único jeito
-            de entrar — e quem está dentro recebe primeiro o valor, os bônus e o link antes de todo mundo.
+            de entrar. Quem está dentro recebe primeiro o valor, os bônus e o link antes de todo mundo.
           </p>
 
           <div style={wStyles.bonusRow}>
@@ -80,7 +80,7 @@ function Waitlist() {
               <div>
                 <div style={wStyles.successT}>Você está dentro.</div>
                 <div style={wStyles.successD}>
-                  → check seu email ({email}) — enviei os próximos passos e o link das lives diárias.
+                  → check seu email ({email}). Enviei os próximos passos e o link das lives diárias.
                 </div>
               </div>
             </div>

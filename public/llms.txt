@@ -1,0 +1,33 @@
+# Imersão GPT 6 + Fable 5.1 | Games com IA
+
+> Imersão online e ao vivo conduzida por Alexandre Boyago sobre GPT 6, Fable 5.1, criação de games com inteligência artificial e construção de uma página para reunir e hospedar os games.
+
+## Informações principais
+
+- Data: 26 de setembro de 2026
+- Horário: início às 08h, no horário de Brasília
+- Formato: online e ao vivo
+- Preço do primeiro lote: R$ 49,00, em pagamento único
+- Mentor: Alexandre Boyago
+- Idioma: português do Brasil
+
+## O que será ensinado
+
+1. Novidades e aplicação prática de GPT 6.
+2. Fluxo de criação de games com Fable 5.1.
+3. Combinação dos dois modelos no mesmo processo de criação.
+4. Construção de um game jogável com mecânica, interface e pontuação.
+5. Construção de um portal visual para reunir e apresentar games criados com IA.
+6. Preparação do projeto para hospedagem e publicação.
+
+## Sobre Alexandre Boyago
+
+Alexandre Boyago é desenvolvedor, designer e criador de produtos digitais. Tem mais de 26 anos de experiência em tecnologia, mais de 9.500 alunos e sete produtos publicados.
+
+## Perguntas frequentes
+
+- Não é necessário ser especialista em programação; a construção é guiada passo a passo.
+- O ingresso não inclui eventuais assinaturas ou créditos de ferramentas de terceiros.
+- O conteúdo ficará gravado e disponível por três meses para quem adquirir a imersão.
+- Todos os projetos desenvolvidos durante a aula serão disponibilizados no GitHub ao final da imersão.
+- As instruções de acesso serão enviadas após a confirmação da compra.

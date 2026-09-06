@@ -1,4 +1,4 @@
-// ClaudeMascot — pixel-art fiel ao mascote oficial do Claude Code.
+// ClaudeMascot: pixel-art fiel ao mascote oficial do Claude Code.
 // Quadrado laranja #D97757, 2 olhos pretos quadrados, 2 braços laterais,
 // 4 perninhas embaixo. Desenho em grid de "pixels" usando divs.
 

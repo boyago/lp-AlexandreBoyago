@@ -1,9 +1,9 @@
-// ForWhom — "para quem é / para quem não é"
+// ForWhom: "para quem é / para quem não é"
 
 function ForWhom() {
   const yes = [
     'Você já programa (mesmo que básico) e quer multiplicar sua produção com IA',
-    'Você quer construir e lançar produtos digitais sozinho — SaaS, app, MVP',
+    'Você quer construir e lançar produtos digitais sozinho: SaaS, app ou MVP',
     'Você é freelancer e quer cobrar o dobro entregando em metade do tempo',
     'Você sente que está ficando pra trás e quer se atualizar RÁPIDO',
     'Você quer parar de só estudar e começar a entregar software real em VPS',

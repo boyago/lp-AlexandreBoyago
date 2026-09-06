@@ -1,9 +1,9 @@
-// Stack — cards das ferramentas (Claude, Antigravity, GPT-5, Gemini, Claude Design, VPS)
-// Layout tipo "package.json" — cada ferramenta como um módulo instalado.
+// Stack: cards das ferramentas (Claude, Antigravity, GPT-5, Gemini, Claude Design, VPS)
+// Layout tipo "package.json": cada ferramenta como um módulo instalado.
 
 function Stack() {
   const tools = [
-    { k: 'claude-code', v: '^2.1.0', by: 'anthropic', desc: 'Seu par de programação. Escreve, revisa, refatora, debuga — em linguagem natural.', tag: 'CORE', color: '#ff9b5b' },
+    { k: 'claude-code', v: '^2.1.0', by: 'anthropic', desc: 'Seu par de programação. Escreve, revisa, refatora e debuga em linguagem natural.', tag: 'CORE', color: '#ff9b5b' },
     { k: 'antigravity', v: '^1.0.0', by: 'google', desc: 'Nova IDE agentic. Constrói aplicações inteiras com supervisão mínima.', tag: 'NEW', color: '#4a9eff' },
     { k: 'gpt-5', v: '^5.0.0', by: 'openai', desc: 'Reasoning model para arquitetura, validação de decisões e lógica de negócio.', tag: 'CORE', color: '#00ff88' },
     { k: 'gemini', v: '^2.5.0', by: 'google', desc: 'Contexto longo, análise de bases inteiras, integração com todo o stack Google.', tag: 'CORE', color: '#c770ff' },
@@ -22,7 +22,7 @@ function Stack() {
         </h2>
         <p style={stackStyles.sub}>
           Não é mais uma coleção de tutoriais. É o <span style={stackStyles.white}>stack operacional completo</span>
-          &nbsp;para quem quer construir software em 2026 — do primeiro prompt ao deploy em produção.
+          &nbsp;para quem quer construir software em 2026, do primeiro prompt ao deploy em produção.
         </p>
       </div>
 

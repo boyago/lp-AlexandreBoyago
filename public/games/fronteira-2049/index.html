@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Fronteira 2049 | protótipo 3D</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden;background:#0b0f12;color:#eef3f8;font-family:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;user-select:none;touch-action:none}
+  canvas#c{display:block;width:100%;height:100%}
+  #hud{position:fixed;inset:0;pointer-events:none}
+  .tag{position:absolute;left:14px;top:14px;padding:8px 11px;border:1px solid rgba(255,255,255,.16);border-radius:8px;background:rgba(8,12,14,.55);backdrop-filter:blur(8px);font-size:10px;font-weight:700;letter-spacing:.12em}
+  .tag b{color:#c8ff5a}
+  .help{position:absolute;right:14px;bottom:14px;padding:8px 11px;border:1px solid rgba(255,255,255,.16);border-radius:8px;background:rgba(8,12,14,.55);backdrop-filter:blur(8px);font-size:10px;letter-spacing:.06em;color:#c9d2d8}
+  .help kbd{display:inline-block;padding:1px 5px;border:1px solid rgba(255,255,255,.3);border-radius:4px;font-size:9px;color:#fff}
+  .speed{position:absolute;left:14px;bottom:14px;padding:8px 11px;border:1px solid rgba(255,255,255,.16);border-radius:8px;background:rgba(8,12,14,.55);backdrop-filter:blur(8px);font-size:10px;letter-spacing:.1em}
+  .speed strong{display:block;font-size:22px;letter-spacing:-.03em;color:#fff}
+  .sound{position:absolute;right:14px;top:14px;padding:8px 11px;border:1px solid rgba(200,255,90,.3);border-radius:8px;background:rgba(8,12,14,.55);backdrop-filter:blur(8px);color:#c8ff5a;font-size:9px;font-weight:700;letter-spacing:.1em}
+  #start{position:fixed;inset:0;display:grid;place-items:center;background:radial-gradient(circle,rgba(10,20,20,.4),rgba(4,6,8,.85));pointer-events:auto;cursor:pointer;text-align:center}
+  #start span{display:block;color:#c8ff5a;font-size:9px;font-weight:700;letter-spacing:.16em;margin-bottom:12px}
+  #start h1{font-size:clamp(34px,6vw,64px);letter-spacing:-.05em;line-height:.9;margin-bottom:10px}
+  #start p{max-width:420px;margin:0 auto 18px;color:#b6c0c8;font-size:12px;line-height:1.55}
+  #start em{display:inline-block;padding:12px 18px;border-radius:8px;background:#c8ff5a;color:#0a0d10;font-style:normal;font-weight:700;font-size:10px;letter-spacing:.08em}
+  .preview #hud,.preview #start{display:none}
+  .stick{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:none;gap:10px;pointer-events:auto}
+  .stick button{width:54px;height:54px;border:1px solid rgba(255,255,255,.25);border-radius:12px;background:rgba(8,12,14,.6);color:#fff;font-size:18px}
+  @media (pointer:coarse){.stick{display:flex}.help{display:none}}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud">
+  <div class="tag">FRONTEIRA 2049 <b>· PROTÓTIPO 3D EM TEMPO REAL</b></div>
+  <div class="sound" id="sound">SOM · OFF</div>
+  <div class="speed">VELOCIDADE<strong id="spd">0</strong></div>
+  <div class="help"><kbd>W</kbd><kbd>S</kbd> acelera · <kbd>A</kbd><kbd>D</kbd> vira · <kbd>ESPAÇO</kbd> drone</div>
+  <div class="stick"><button data-k="a">◀</button><button data-k="w">▲</button><button data-k="s">▼</button><button data-k="d">▶</button></div>
+</div>
+<div id="start"><div><span>PROTÓTIPO · MUNDO ABERTO 3D</span><h1>Fronteira 2049</h1><p>Um cânion brasileiro futurista gerado em tempo real: chapadas, névoa volumétrica, pôr do sol e um buggy de patrulha para explorar. Clique para dirigir.</p><em>ENTRAR NO CÂNION COM SOM</em></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const PREVIEW = new URLSearchParams(location.search).get('mode') === 'preview';
+if (PREVIEW) document.body.classList.add('preview');
+
+// Áudio procedural original: motor do buggy, vento e respostas de terreno e drone.
+const gameSound = (() => {
+  let context, master, engineGain, engineFilter, engineLead, engineSub, wind;
+  let lastBump = 0;
+  const init = () => {
+    if (PREVIEW) return;
+    if (context) { if (context.state === 'suspended') context.resume().catch(() => {}); return; }
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return;
+    context = new AudioContext();
+    master = context.createGain(); master.gain.value = 0.2; master.connect(context.destination);
+    engineGain = context.createGain(); engineGain.gain.value = 0.035;
+    engineFilter = context.createBiquadFilter(); engineFilter.type = 'lowpass'; engineFilter.frequency.value = 430;
+    engineLead = context.createOscillator(); engineLead.type = 'sawtooth'; engineLead.frequency.value = 55;
+    engineSub = context.createOscillator(); engineSub.type = 'triangle'; engineSub.frequency.value = 27.5;
+    engineLead.connect(engineFilter); engineSub.connect(engineFilter); engineFilter.connect(engineGain).connect(master);
+    engineLead.start(); engineSub.start();
+    const buffer = context.createBuffer(1, context.sampleRate * 2, context.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+    wind = context.createBufferSource(); wind.buffer = buffer; wind.loop = true;
+    const windFilter = context.createBiquadFilter(); windFilter.type = 'bandpass'; windFilter.frequency.value = 620; windFilter.Q.value = 0.55;
+    const windGain = context.createGain(); windGain.gain.value = 0.025;
+    wind.connect(windFilter).connect(windGain).connect(master); wind.start();
+    document.getElementById('sound').textContent = 'SOM · ATIVO';
+  };
+  const tone = (frequency, duration, slide = 0, volume = 0.16) => {
+    if (!context || !master) return;
+    const now = context.currentTime, oscillator = context.createOscillator(), gain = context.createGain();
+    oscillator.type = 'square'; oscillator.frequency.setValueAtTime(frequency, now);
+    if (slide) oscillator.frequency.exponentialRampToValueAtTime(Math.max(20, frequency + slide), now + duration);
+    gain.gain.setValueAtTime(volume, now); gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+    oscillator.connect(gain).connect(master); oscillator.start(); oscillator.stop(now + duration + 0.02);
+  };
+  const setMotor = (speed) => {
+    if (!context || !engineGain) return;
+    const amount = Math.min(1, Math.abs(speed) / 34), now = context.currentTime, base = 52 + amount * 150;
+    engineLead.frequency.setTargetAtTime(base, now, 0.05); engineSub.frequency.setTargetAtTime(base * 0.48, now, 0.07);
+    engineFilter.frequency.setTargetAtTime(380 + amount * 920, now, 0.08); engineGain.gain.setTargetAtTime(0.03 + amount * 0.075, now, 0.08);
+  };
+  const start = () => { init(); tone(180, 0.08, 120, 0.14); setTimeout(() => tone(320, 0.13, 180, 0.15), 90); };
+  const drone = () => { tone(620, 0.08, 240, 0.14); setTimeout(() => tone(920, 0.1, -180, 0.12), 75); };
+  const bump = (strength) => {
+    const now = performance.now(); if (now - lastBump < 240 || strength < 1.15) return; lastBump = now;
+    tone(92, 0.12, -38, Math.min(0.18, 0.08 + strength * 0.025));
+  };
+  const resume = () => { if (context?.state === 'suspended') context.resume().catch(() => {}); };
+  const close = () => { if (context && context.state !== 'closed') context.close().catch(() => {}); context = null; };
+  return { start, setMotor, drone, bump, resume, close };
+})();
+
+// ---------- cena ----------
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(devicePixelRatio, PREVIEW ? 1 : 1.5));
+renderer.shadowMap.enabled = !PREVIEW;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.15;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x9fb6c4);
+scene.fog = new THREE.FogExp2(0xd8c9b4, 0.0036);
+
+const camera = new THREE.PerspectiveCamera(62, 1, 0.1, 900);
+
+// luz: sol baixo de fim de tarde, como na arte conceitual
+const sun = new THREE.DirectionalLight(0xffd9a3, 2.4);
+sun.position.set(-120, 60, -180);
+sun.castShadow = !PREVIEW;
+sun.shadow.mapSize.set(2048, 2048);
+sun.shadow.camera.left = -80; sun.shadow.camera.right = 80; sun.shadow.camera.top = 80; sun.shadow.camera.bottom = -80; sun.shadow.camera.far = 400;
+scene.add(sun);
+scene.add(new THREE.HemisphereLight(0xa9c6d8, 0x4a3a2a, 0.9));
+
+// céu com gradiente e sol
+{
+  const g = new THREE.SphereGeometry(800, 24, 12);
+  const m = new THREE.ShaderMaterial({
+    side: THREE.BackSide, depthWrite: false,
+    uniforms: { sunDir: { value: sun.position.clone().normalize() } },
+    vertexShader: 'varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
+    fragmentShader: `varying vec3 vP; uniform vec3 sunDir;
+      void main(){
+        float h = clamp(vP.y, -0.05, 1.0);
+        vec3 top = vec3(0.30,0.42,0.55), mid = vec3(0.78,0.72,0.62), low = vec3(1.0,0.75,0.45);
+        vec3 c = mix(mix(low, mid, smoothstep(0.0,0.18,h)), top, smoothstep(0.18,0.8,h));
+        float s = max(dot(vP, sunDir), 0.0);
+        c += vec3(1.0,0.85,0.6) * pow(s, 180.0) * 2.0 + vec3(1.0,0.7,0.4) * pow(s, 8.0) * 0.35;
+        // nuvens pesadas em cima, como no concept
+        float cl = smoothstep(0.35, 0.75, h) * (0.55 + 0.45 * sin(vP.x*9.0 + vP.z*5.0) * sin(vP.z*11.0));
+        c = mix(c, vec3(0.32,0.36,0.42), cl * 0.6);
+        gl_FragColor = vec4(c, 1.0);
+      }`
+  });
+  scene.add(new THREE.Mesh(g, m));
+}
+
+// ---------- terreno procedural (cânion) ----------
+function hash(x, z) { const s = Math.sin(x * 127.1 + z * 311.7) * 43758.5453; return s - Math.floor(s); }
+function noise(x, z) {
+  const xi = Math.floor(x), zi = Math.floor(z), xf = x - xi, zf = z - zi;
+  const u = xf * xf * (3 - 2 * xf), v = zf * zf * (3 - 2 * zf);
+  return (hash(xi, zi) * (1 - u) + hash(xi + 1, zi) * u) * (1 - v) + (hash(xi, zi + 1) * (1 - u) + hash(xi + 1, zi + 1) * u) * v;
+}
+function fbm(x, z) { let a = 0, amp = 1, f = 1; for (let i = 0; i < 5; i++) { a += noise(x * f, z * f) * amp; amp *= 0.5; f *= 2.1; } return a / 1.94; }
+// centro do rio sinuoso e altura: piso do vale em +1, canal do rio em -3, chapadas em degraus de 40 m
+function riverX(z) { return -(Math.sin(z * 0.012) * 40 + Math.sin(z * 0.031) * 14); }
+function height(x, z) {
+  const d = Math.abs(x - riverX(z)) / 60; // distância normalizada ao rio
+  const valley = Math.min(1, d * d);
+  const plateau = fbm(x * 0.01, z * 0.01) * 28;
+  const steps = Math.floor(valley * 3.2) / 3.2; // chapada em camadas
+  const rough = fbm(x * 0.05, z * 0.05) * 2.2;
+  const river = Math.max(0, 1 - d / 0.22); // canal: só bem perto do centro
+  return 1 + steps * 42 + plateau * valley + rough * (0.3 + valley) - river * river * 4.5;
+}
+
+const SIZE = 640, SEG = PREVIEW ? 110 : 170;
+const geo = new THREE.PlaneGeometry(SIZE, SIZE, SEG, SEG);
+geo.rotateX(-Math.PI / 2);
+const pos = geo.attributes.position;
+const colors = [];
+const rock = new THREE.Color(0x8a4a2e), rockDark = new THREE.Color(0x4a2a1c), grass = new THREE.Color(0x3d6b2c), grassDark = new THREE.Color(0x24451d), sand = new THREE.Color(0x9b7a52);
+for (let i = 0; i < pos.count; i++) {
+  const x = pos.getX(i), z = pos.getZ(i);
+  const y = height(x, z);
+  pos.setY(i, y);
+  // cor: verde no fundo do vale e topo da chapada, rocha vermelha nas paredes
+  const slope = Math.abs(height(x + 2, z) - y) + Math.abs(height(x, z + 2) - y);
+  const c = new THREE.Color();
+  if (slope > 5) c.lerpColors(rock, rockDark, Math.min(1, (slope - 5) / 12));
+  else if (y < 2) c.lerpColors(sand, grass, Math.min(1, Math.max(0, (y + 3) / 5)));
+  else c.lerpColors(grass, grassDark, fbm(x * 0.08, z * 0.08));
+  colors.push(c.r, c.g, c.b);
+}
+geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+geo.computeVertexNormals();
+const terrain = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0 }));
+terrain.receiveShadow = true; terrain.castShadow = true;
+scene.add(terrain);
+
+// água no fundo do vale
+const water = new THREE.Mesh(new THREE.PlaneGeometry(SIZE, SIZE), new THREE.MeshStandardMaterial({ color: 0x2f6f7a, roughness: 0.15, metalness: 0.3, transparent: true, opacity: 0.85 }));
+water.rotation.x = -Math.PI / 2; water.position.y = -0.9; scene.add(water);
+
+// névoa volumétrica "fake": planos translúcidos flutuando no vale
+const mistTex = (() => { const c = document.createElement('canvas'); c.width = 256; c.height = 64; const g = c.getContext('2d'); const r = g.createRadialGradient(128, 32, 4, 128, 32, 128); r.addColorStop(0, 'rgba(255,255,255,1)'); r.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = r; g.fillRect(0, 0, 256, 64); return new THREE.CanvasTexture(c); })();
+const mist = new THREE.Group();
+for (let i = 0; i < (PREVIEW ? 14 : 30); i++) {
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(60 + Math.random() * 80, 14), new THREE.MeshBasicMaterial({ map: mistTex, color: 0xe6ebee, transparent: true, opacity: 0.22 + Math.random() * 0.2, depthWrite: false }));
+  const z = -300 + Math.random() * 600; m.position.set(Math.sin(z * 0.012) * -40 + (Math.random() - 0.5) * 60, 4 + Math.random() * 10, z);
+  m.userData.phase = Math.random() * 6.28; mist.add(m);
+}
+scene.add(mist);
+
+// vegetação: árvores low-poly instanciadas
+{
+  const trunk = new THREE.CylinderGeometry(0.25, 0.4, 3, 5), crown = new THREE.IcosahedronGeometry(2.2, 0);
+  const count = PREVIEW ? 350 : 800;
+  const trunkMesh = new THREE.InstancedMesh(trunk, new THREE.MeshStandardMaterial({ color: 0x4a3324 }), count);
+  const crownMesh = new THREE.InstancedMesh(crown, new THREE.MeshStandardMaterial({ color: 0x2f6a2a, roughness: 1 }), count);
+  const dummy = new THREE.Object3D(); let placed = 0, tries = 0;
+  while (placed < count && tries < count * 8) {
+    tries++;
+    const x = (Math.random() - 0.5) * SIZE * 0.95, z = (Math.random() - 0.5) * SIZE * 0.95, y = height(x, z);
+    const slope = Math.abs(height(x + 2, z) - y);
+    if (slope > 3 || y < 1.6) continue;
+    const s = 0.7 + Math.random() * 0.9;
+    dummy.position.set(x, y + 1.4 * s, z); dummy.scale.setScalar(s); dummy.rotation.y = Math.random() * 6; dummy.updateMatrix(); trunkMesh.setMatrixAt(placed, dummy.matrix);
+    dummy.position.y = y + 3.6 * s; dummy.updateMatrix(); crownMesh.setMatrixAt(placed, dummy.matrix);
+    placed++;
+  }
+  trunkMesh.count = crownMesh.count = placed; crownMesh.castShadow = true;
+  scene.add(trunkMesh, crownMesh);
+}
+
+// cidade futurista ao fundo (cúpulas e torres), como no concept
+{
+  const city = new THREE.Group();
+  const white = new THREE.MeshStandardMaterial({ color: 0xe8e4d8, roughness: 0.4, metalness: 0.2 });
+  const cx = 40, cz = -250, base = height(cx, cz);
+  for (let i = 0; i < 14; i++) {
+    const w = 3 + Math.random() * 6, h = 4 + Math.random() * 22;
+    const b = new THREE.Mesh(new THREE.BoxGeometry(w, h, w), white); b.position.set(cx + (Math.random() - 0.5) * 60, base + h / 2, cz + (Math.random() - 0.5) * 40); city.add(b);
+  }
+  const dome = new THREE.Mesh(new THREE.SphereGeometry(9, 16, 10, 0, 6.28, 0, 1.57), white); dome.position.set(cx, base + 2, cz); city.add(dome);
+  const tower = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 1.4, 60, 6), white); tower.position.set(cx + 18, base + 30, cz - 8); city.add(tower);
+  const beacon = new THREE.PointLight(0xff4444, 3, 80); beacon.position.set(cx + 18, base + 62, cz - 8); city.add(beacon);
+  scene.add(city);
+}
+
+// ---------- buggy de patrulha ----------
+const buggy = new THREE.Group();
+{
+  const body = new THREE.MeshStandardMaterial({ color: 0xb8b2a0, roughness: 0.55, metalness: 0.35 });
+  const dark = new THREE.MeshStandardMaterial({ color: 0x1c1c20, roughness: 0.9 });
+  const hull = new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.1, 4.4), body); hull.position.y = 1.1; hull.castShadow = true; buggy.add(hull);
+  const cabin = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.9, 2.2), body); cabin.position.set(0, 2.05, -0.3); cabin.castShadow = true; buggy.add(cabin);
+  const glass = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.55, 0.1), new THREE.MeshStandardMaterial({ color: 0x142028, roughness: 0.1, metalness: 0.8 })); glass.position.set(0, 2.1, 0.85); buggy.add(glass);
+  const rack = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.18, 0.4), dark); rack.position.set(0, 2.6, -0.2); buggy.add(rack);
+  const lamp = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.12, 0.2), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xfff2c0, emissiveIntensity: 3 })); lamp.position.set(0, 2.62, 0.05); buggy.add(lamp);
+  const tail = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.16, 0.1), new THREE.MeshStandardMaterial({ color: 0xff2020, emissive: 0xff2020, emissiveIntensity: 2.5 })); tail.position.set(0, 1.35, -2.22); buggy.add(tail);
+  const wheelGeo = new THREE.CylinderGeometry(0.72, 0.72, 0.6, 14); wheelGeo.rotateZ(Math.PI / 2);
+  buggy.userData.wheels = [];
+  [[-1.5, 1.5], [1.5, 1.5], [-1.5, -1.5], [1.5, -1.5]].forEach(([x, z]) => { const w = new THREE.Mesh(wheelGeo, dark); w.position.set(x, 0.72, z); w.castShadow = true; buggy.add(w); buggy.userData.wheels.push(w); });
+  const head = new THREE.SpotLight(0xfff0d0, 2.5, 60, 0.6, 0.5); head.position.set(0, 2.5, 1); head.target.position.set(0, 0, 20); buggy.add(head, head.target);
+}
+scene.add(buggy);
+
+// drone (câmera alternativa) — só um marcador visual
+const drone = new THREE.Mesh(new THREE.OctahedronGeometry(0.5), new THREE.MeshStandardMaterial({ color: 0xc8ff5a, emissive: 0xc8ff5a, emissiveIntensity: 1.5 }));
+scene.add(drone);
+
+// ---------- controle ----------
+const keys = {};
+addEventListener('keydown', (e) => { gameSound.resume(); keys[e.key.toLowerCase()] = true; if ([' ', 'arrowup', 'arrowdown'].includes(e.key.toLowerCase())) e.preventDefault(); });
+addEventListener('keyup', (e) => { keys[e.key.toLowerCase()] = false; });
+document.querySelectorAll('.stick button').forEach((b) => {
+  const k = b.dataset.k;
+  b.addEventListener('pointerdown', (e) => { e.preventDefault(); gameSound.resume(); keys[k] = true; });
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach((ev) => b.addEventListener(ev, () => { keys[k] = false; }));
+});
+let started = PREVIEW, droneCam = false, lastSpace = false;
+document.getElementById('start').addEventListener('click', () => { gameSound.start(); started = true; document.getElementById('start').style.display = 'none'; });
+addEventListener('pagehide', () => gameSound.close());
+
+const car = { x: riverX(120) + 14, z: 120, heading: Math.PI, speed: 0 };
+function resize() { const w = canvas.clientWidth, h = canvas.clientHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
+addEventListener('resize', resize); resize();
+
+const clock = new THREE.Clock();
+const camPos = new THREE.Vector3(), camTarget = new THREE.Vector3();
+function frame() {
+  const dt = Math.min(0.05, clock.getDelta()), t = clock.elapsedTime;
+  if (started) {
+    if (keys[' '] && !lastSpace) { droneCam = !droneCam; gameSound.drone(); } lastSpace = !!keys[' '];
+    const gas = (keys.w || keys.arrowup ? 1 : 0) - (keys.s || keys.arrowdown ? 0.6 : 0);
+    car.speed += gas * 22 * dt; car.speed -= car.speed * 0.9 * dt; car.speed = Math.max(-8, Math.min(34, car.speed));
+    const turn = (keys.a || keys.arrowleft ? 1 : 0) - (keys.d || keys.arrowright ? 1 : 0);
+    car.heading += turn * 1.7 * dt * Math.min(1, Math.abs(car.speed) / 8) * Math.sign(car.speed || 1);
+    const nx = car.x + Math.sin(car.heading) * car.speed * dt, nz = car.z + Math.cos(car.heading) * car.speed * dt;
+    const climb = height(nx, nz) - height(car.x, car.z);
+    if (climb > 1.2 && car.speed > 0) { car.speed *= 1 - 0.6 * dt; gameSound.bump(climb); } // subida íngreme só tira fôlego, o buggy escala
+    car.x = nx; car.z = nz;
+    const lim = SIZE / 2 - 20; car.x = Math.max(-lim, Math.min(lim, car.x)); car.z = Math.max(-lim, Math.min(lim, car.z));
+  } else {
+    // modo prévia: o buggy segue o rio sozinho
+    car.speed = 9;
+    const tx = riverX(car.z + Math.cos(car.heading) * 30) + 14, want = Math.atan2(tx - car.x, Math.cos(car.heading) * 30);
+    let diff = want - car.heading; while (diff > Math.PI) diff -= 2 * Math.PI; while (diff < -Math.PI) diff += 2 * Math.PI;
+    car.heading += Math.max(-1.2, Math.min(1.2, diff)) * dt;
+    car.x += Math.sin(car.heading) * car.speed * dt; car.z += Math.cos(car.heading) * car.speed * dt;
+    if (Math.abs(car.z) > 250) car.heading += Math.PI;
+  }
+  gameSound.setMotor(car.speed);
+  const y = height(car.x, car.z);
+  buggy.position.set(car.x, Math.max(y, -0.6), car.z);
+  // inclina o buggy conforme o terreno
+  const ahead = height(car.x + Math.sin(car.heading) * 2, car.z + Math.cos(car.heading) * 2), side = height(car.x + Math.cos(car.heading) * 2, car.z - Math.sin(car.heading) * 2);
+  const clampTilt = (v) => Math.max(-0.35, Math.min(0.35, v));
+  buggy.rotation.set(clampTilt(Math.atan2(y - ahead, 2) * 0.8), car.heading, clampTilt(Math.atan2(side - y, 2) * 0.8), 'YXZ');
+  buggy.userData.wheels.forEach((w) => { w.rotation.x -= car.speed * dt * 1.4; });
+  sun.target.position.copy(buggy.position); sun.position.copy(buggy.position).add(new THREE.Vector3(-120, 60, -180)); sun.target.updateMatrixWorld();
+  mist.children.forEach((m) => { m.position.x += Math.sin(t * 0.2 + m.userData.phase) * 0.02; m.lookAt(camera.position); });
+  drone.position.set(car.x + Math.sin(t) * 6, buggy.position.y + 8 + Math.sin(t * 2) * 0.6, car.z + Math.cos(t) * 6); drone.rotation.y = t;
+
+  if (droneCam) { camPos.set(car.x - Math.sin(car.heading) * 30, buggy.position.y + 26, car.z - Math.cos(car.heading) * 30); }
+  else { camPos.set(car.x - Math.sin(car.heading) * 9, buggy.position.y + 4.2, car.z - Math.cos(car.heading) * 9); }
+  camPos.y = Math.max(camPos.y, height(camPos.x, camPos.z) + 2.2);
+  camera.position.lerp(camPos, 1 - Math.pow(0.001, dt));
+  camTarget.set(car.x + Math.sin(car.heading) * 6, buggy.position.y + 1.6, car.z + Math.cos(car.heading) * 6);
+  camera.lookAt(camTarget);
+  const spd = document.getElementById('spd'); if (spd) spd.textContent = Math.round(Math.abs(car.speed) * 3.4) + ' km/h';
+  renderer.render(scene, camera);
+  requestAnimationFrame(frame);
+}
+frame();
+</script>
+</body>
+</html>
