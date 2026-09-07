@@ -160,7 +160,7 @@ export default function Home() {
 
       <section className="outcomes section-light" id="imersao">
         <div className="section-shell">
-          <div className="section-intro dark-intro"><span className="section-kicker">// O QUE VOCÊ VAI CRIAR</span><h2>Você não vai só assistir.<br /><em>Vai construir.</em></h2><p>Uma aula concentrada em execução: ver, fazer, testar e publicar enquanto aprende a operar os novos modelos.</p></div>
+          <div className="section-intro dark-intro"><span className="section-kicker">// O QUE VOCÊ VAI CRIAR</span><h2>Você não vai só assistir. <br /><em>Vai construir.</em></h2><p>Uma aula concentrada em execução: ver, fazer, testar e publicar enquanto aprende a operar os novos modelos.</p></div>
           <div className="outcome-grid">
             {outcomes.map((item) => { const Icon = item.icon; return <article className="outcome-card" key={item.number}><div className="outcome-top"><span>{item.number}</span><Icon weight="duotone" /></div><h3>{item.title}</h3><p>{item.body}</p></article> })}
           </div>
@@ -169,7 +169,7 @@ export default function Home() {
 
       <section className="build-section" aria-labelledby="build-title">
         <div className="section-shell build-shell">
-          <div className="build-copy"><span className="section-kicker light-kicker">// BUILD SESSION, NÃO PALESTRA</span><h2 id="build-title">Uma ideia entra.<br /><span>Um projeto sai.</span></h2><p>Você acompanha o raciocínio inteiro, inclusive as escolhas, erros, ajustes e atalhos que transformam uma conversa com IA em software jogável.</p>
+          <div className="build-copy"><span className="section-kicker light-kicker">// BUILD SESSION, NÃO PALESTRA</span><h2 id="build-title">Uma ideia entra. <br /><span>Um projeto sai.</span></h2><p>Você acompanha o raciocínio inteiro, inclusive as escolhas, erros, ajustes e atalhos que transformam uma conversa com IA em software jogável.</p>
             <div className="build-steps"><div><span>00</span><strong>IDEIA</strong><small>conceito + mecânica</small></div><ArrowRight /><div><span>01</span><strong>BUILD</strong><small>game + interface</small></div><ArrowRight /><div><span>02</span><strong>SHIP</strong><small>portal publicado</small></div></div>
           </div>
           <div className="code-card" aria-label="Exemplo visual do fluxo de criação com IA">
@@ -182,7 +182,7 @@ export default function Home() {
 
       <section className="curriculum section-light" id="conteudo">
         <div className="section-shell">
-          <div className="section-intro curriculum-head dark-intro"><div><span className="section-kicker">// ROTEIRO DA IMERSÃO</span><h2>Três blocos.<br /><em>Uma entrega.</em></h2></div><p>Sem maratona de teoria. O conteúdo avança na mesma ordem em que um produto é construído.</p></div>
+          <div className="section-intro curriculum-head dark-intro"><div><span className="section-kicker">// ROTEIRO DA IMERSÃO</span><h2>Três blocos. <br /><em>Uma entrega.</em></h2></div><p>Sem maratona de teoria. O conteúdo avança na mesma ordem em que um produto é construído.</p></div>
           <div className="agenda-grid">
             {agenda.map((block) => { const Icon = block.icon; return <article className={`agenda-card ${block.className}`} key={block.tag}><div className="agenda-tag"><span>{block.tag}</span><Icon weight="duotone" /></div><h3>{block.title}</h3><p>{block.description}</p><ul>{block.bullets.map((bullet) => <li key={bullet}><Check weight="bold" /> {bullet}</li>)}</ul></article> })}
           </div>
@@ -191,21 +191,21 @@ export default function Home() {
 
       <section className="arcade-showcase" id="playground">
         <div className="section-shell">
-          <div className="arcade-head"><div><span className="section-kicker light-kicker">// SEU PORTAL DE GAMES COM IA</span><h2>Oito ideias.<br /><span>Todas jogáveis na página.</span></h2></div><p>Jogue no destaque e use os cards abaixo para trocar de experiência sem sair da página. A oitava é um protótipo 3D em tempo real que mostra até onde o visual pode chegar.</p></div>
+          <div className="arcade-head"><div><span className="section-kicker light-kicker">// SEU PORTAL DE GAMES COM IA</span><h2>Oito ideias. <br /><span>Todas jogáveis na página.</span></h2></div><p>Jogue no destaque e use os cards abaixo para trocar de experiência sem sair da página. A oitava é um protótipo 3D em tempo real que mostra até onde o visual pode chegar.</p></div>
           <MiniGameHub />
         </div>
       </section>
 
       <section className="mentor mentor-dark" id="mentor">
         <div className="section-shell mentor-shell">
-          <div className="mentor-portrait"><div className="portrait-ring" /><Image src={alexandrePhoto} alt="Alexandre Boyago, mentor da imersão GPT 6 e Fable 5.1" priority={false} /><div className="mentor-badge"><span>26+</span> ANOS<br />CRIANDO</div></div>
-          <div className="mentor-copy"><span className="section-kicker">// QUEM VAI CONSTRUIR COM VOCÊ</span><h2>Alexandre<br /><em>Boyago.</em></h2><p className="mentor-lead">Dev, designer e construtor de produtos digitais, antes mesmo de “build in public” virar expressão da moda.</p><p>São mais de 26 anos transformando tecnologia em projetos reais e mais de 9.500 alunos acompanhando esse método. Na imersão, Alexandre abre o processo: da tela em branco ao projeto funcionando.</p><div className="mentor-stats"><div><strong>9.500+</strong><span>alunos</span></div><div><strong>7</strong><span>produtos no ar</span></div><div><strong>100%</strong><span>mão na massa</span></div></div></div>
+          <div className="mentor-portrait"><div className="portrait-ring" /><Image src={alexandrePhoto} alt="Alexandre Boyago, mentor da imersão GPT 6 e Fable 5.1" priority={false} /><div className="mentor-badge"><span>26+</span> ANOS <br />CRIANDO</div></div>
+          <div className="mentor-copy"><span className="section-kicker">// QUEM VAI CONSTRUIR COM VOCÊ</span><h2>Alexandre <br /><em>Boyago.</em></h2><p className="mentor-lead">Dev, designer e construtor de produtos digitais, antes mesmo de “build in public” virar expressão da moda.</p><p>São mais de 26 anos transformando tecnologia em projetos reais e mais de 9.500 alunos acompanhando esse método. Na imersão, Alexandre abre o processo: da tela em branco ao projeto funcionando.</p><div className="mentor-stats"><div><strong>9.500+</strong><span>alunos</span></div><div><strong>7</strong><span>produtos no ar</span></div><div><strong>100%</strong><span>mão na massa</span></div></div></div>
         </div>
       </section>
 
       <section className="audience">
         <div className="section-shell audience-shell">
-          <div className="audience-copy"><span className="section-kicker light-kicker">// PARA QUEM É</span><h2>Se você quer fazer,<br /><span>você é o player 1.</span></h2></div>
+          <div className="audience-copy"><span className="section-kicker light-kicker">// PARA QUEM É</span><h2>Se você quer fazer, <br /><span>você é o player&nbsp;1.</span></h2></div>
           <div className="audience-list"><div><UserFocus weight="duotone" /><p><strong>Criadores curiosos</strong><span>que querem transformar ideias em experiências interativas.</span></p></div><div><Code weight="duotone" /><p><strong>Devs e designers</strong><span>que querem acelerar o trabalho e experimentar os novos modelos.</span></p></div><div><RocketLaunch weight="duotone" /><p><strong>Empreendedores digitais</strong><span>que enxergam games e IA como novas superfícies de produto.</span></p></div><div><Lightning weight="duotone" /><p><strong>Quem aprende construindo</strong><span>e não quer esperar “estar pronto” para colocar algo no ar.</span></p></div></div>
         </div>
       </section>
@@ -213,7 +213,7 @@ export default function Home() {
       <section className="offer section-light" id="oferta">
         <div className="section-shell offer-shell">
           <div className="offer-copy dark-intro">
-            <div><span className="section-kicker">// SUA VAGA NA IMERSÃO</span><h2>Um sábado para<br /><em>mudar seu jeito de criar.</em></h2></div>
+            <div><span className="section-kicker">// SUA VAGA NA IMERSÃO</span><h2>Um sábado para <br /><em>mudar seu jeito de criar.</em></h2></div>
             <div className="offer-summary"><p>Conheça os modelos enquanto constrói algo que você pode abrir, jogar, mostrar e continuar evoluindo.</p><div className="countdown-line"><Timer weight="duotone" /><div><strong>{daysLeft === null ? '…' : daysLeft} dias</strong><span>até a imersão, dia 26/09 às 08h</span></div></div></div>
           </div>
 
@@ -222,28 +222,28 @@ export default function Home() {
               <div className="price-head"><span>1º LOTE · LIBERADO</span><span>QUASE ESGOTADO</span></div>
               <div className="lot-progress-copy"><strong>ÚLTIMAS VAGAS DESTE LOTE</strong><span>Próximo valor: R$ 97</span></div>
               <div className="lot-progress" role="progressbar" aria-label="Oitenta e dois por cento do primeiro lote preenchido" aria-valuemin="0" aria-valuemax="100" aria-valuenow="82"><i /></div>
-              <h3>GPT 6 +<br />Fable 5.1</h3>
+              <h3>GPT 6 + <br />Fable 5.1</h3>
               <ul><li><CheckCircle weight="fill" /> Imersão online e ao vivo às 08h</li><li><CheckCircle weight="fill" /> Games e portal construídos na prática</li><li><CheckCircle weight="fill" /> Gravação disponível por 3 meses</li><li><CheckCircle weight="fill" /> Projetos entregues pelo GitHub</li></ul>
               <div className="price-label">DE <s>R$ 149</s> POR APENAS</div><div className="price"><span>R$</span><strong>49</strong><small>,00</small></div>
               <CheckoutLink className="price-cta" onUnavailable={showCheckoutNotice} label="Garantir minha vaga no primeiro lote por quarenta e nove reais">GARANTIR MINHA VAGA <ArrowRight weight="bold" /></CheckoutLink><p className="secure-note">Pagamento único em ambiente seguro</p>
             </article>
 
             <article className="price-card price-card-upcoming" aria-label="Segundo lote por noventa e sete reais, ainda não liberado">
-              <div className="price-head"><span>2º LOTE</span><span>EM BREVE</span></div><h3>Segundo<br />lote</h3><p>O mesmo acesso completo, liberado após o encerramento do primeiro lote.</p><div className="price-label">VALOR DO PRÓXIMO LOTE</div><div className="price"><span>R$</span><strong>97</strong><small>,00</small></div><span className="lot-locked">AINDA NÃO LIBERADO</span>
+              <div className="price-head"><span>2º LOTE</span><span>EM BREVE</span></div><h3>Segundo <br />lote</h3><p>O mesmo acesso completo, liberado após o encerramento do primeiro lote.</p><div className="price-label">VALOR DO PRÓXIMO LOTE</div><div className="price"><span>R$</span><strong>97</strong><small>,00</small></div><span className="lot-locked">AINDA NÃO LIBERADO</span>
             </article>
 
             <article className="price-card price-card-upcoming" aria-label="Terceiro lote por cento e quarenta e nove reais, ainda não liberado">
-              <div className="price-head"><span>3º LOTE</span><span>VALOR FINAL</span></div><h3>Terceiro<br />lote</h3><p>Última etapa de inscrições antes do fechamento das vagas para a imersão.</p><div className="price-label">VALOR FINAL</div><div className="price"><span>R$</span><strong>149</strong><small>,00</small></div><span className="lot-locked">AINDA NÃO LIBERADO</span>
+              <div className="price-head"><span>3º LOTE</span><span>VALOR FINAL</span></div><h3>Terceiro <br />lote</h3><p>Última etapa de inscrições antes do fechamento das vagas para a imersão.</p><div className="price-label">VALOR FINAL</div><div className="price"><span>R$</span><strong>149</strong><small>,00</small></div><span className="lot-locked">AINDA NÃO LIBERADO</span>
             </article>
           </div>
         </div>
       </section>
 
-      <section className="faq-section" id="faq"><div className="section-shell faq-shell"><div className="faq-head"><span className="section-kicker light-kicker">// FAQ</span><h2>Perguntas<br /><span>frequentes.</span></h2><p>O essencial para você decidir se esta imersão é o próximo passo certo.</p></div><FAQ /></div></section>
+      <section className="faq-section" id="faq"><div className="section-shell faq-shell"><div className="faq-head"><span className="section-kicker light-kicker">// FAQ</span><h2>Perguntas <br /><span>frequentes.</span></h2><p>O essencial para você decidir se esta imersão é o próximo passo certo.</p></div><FAQ /></div></section>
 
-      <section className="final-cta"><div className="final-glow" /><div className="section-shell final-shell"><GameController weight="duotone" /><span className="section-kicker light-kicker">26 DE SETEMBRO · 08H · ONLINE E AO VIVO</span><h2>Seu próximo game não<br />precisa ficar no prompt.</h2><p>Venha criar, testar e publicar com GPT 6 e Fable 5.1.</p><CheckoutLink className="primary-cta final-button" onUnavailable={showCheckoutNotice} label="Quero criar meu game com inteligência artificial"><Trophy weight="fill" /> QUERO CRIAR MEU GAME <ArrowRight weight="bold" /></CheckoutLink></div></section>
+      <section className="final-cta"><div className="final-glow" /><div className="section-shell final-shell"><GameController weight="duotone" /><span className="section-kicker light-kicker">26 DE SETEMBRO · 08H · ONLINE E AO VIVO</span><h2>Seu próximo game não <br />precisa ficar no prompt.</h2><p>Venha criar, testar e publicar com GPT 6 e Fable 5.1.</p><CheckoutLink className="primary-cta final-button" onUnavailable={showCheckoutNotice} label="Quero criar meu game com inteligência artificial"><Trophy weight="fill" /> QUERO CRIAR MEU GAME <ArrowRight weight="bold" /></CheckoutLink></div></section>
 
-      <footer><div className="footer-shell"><a className="brand footer-brand" href="#inicio"><span className="brand-mark">AB</span><span>AI GAME LAB</span></a><p>Imersão GPT 6 + Fable 5.1<br />com Alexandre Boyago.</p><nav aria-label="Navegação do rodapé"><a href="#imersao">A imersão</a><a href="#conteudo">Conteúdo</a><a href="#mentor">Mentor</a><a href="#faq">FAQ</a></nav><span>© 2026 Alexandre Boyago</span></div></footer>
+      <footer><div className="footer-shell"><a className="brand footer-brand" href="#inicio"><span className="brand-mark">AB</span><span>AI GAME LAB</span></a><p>Imersão GPT 6 + Fable 5.1 <br />com Alexandre Boyago.</p><nav aria-label="Navegação do rodapé"><a href="#imersao">A imersão</a><a href="#conteudo">Conteúdo</a><a href="#mentor">Mentor</a><a href="#faq">FAQ</a></nav><span>© 2026 Alexandre Boyago</span></div></footer>
 
       <div className={`checkout-toast ${toast ? 'show' : ''}`} role="status" aria-live="polite"><div><strong>Inscrições quase abertas.</strong><span>O link do checkout será conectado aqui em seguida.</span></div><button type="button" onClick={() => setToast(false)} aria-label="Fechar aviso"><X weight="bold" /></button></div>
       <div className="mobile-buy-bar"><div><span>1º LOTE · QUASE ESGOTADO</span><strong>R$ 49</strong></div><CheckoutLink onUnavailable={showCheckoutNotice} label="Garantir vaga na imersão">GARANTIR VAGA <ArrowRight weight="bold" /></CheckoutLink></div>

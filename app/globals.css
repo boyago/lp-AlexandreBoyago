@@ -63,8 +63,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .primary-cta svg { width: 18px; height: 18px; }
 .primary-cta svg:last-child { margin-left: 3px; }
 .event-note { display: flex; flex-direction: column; gap: 5px; }
-.event-note strong { color: #fff; font: 700 12px/1.2 'Space Grotesk'; letter-spacing: .06em; }
-.event-note span { color: #777780; font-size: 12px; }
+.event-note strong { color: #fff; font: 700 15px/1.2 'Space Grotesk'; letter-spacing: .06em; }
+.event-note span { color: #8d8d96; font-size: 14px; }
 .trust-row { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 18px; color: #898991; font-size: 12px; }
 .trust-row span { display: flex; align-items: center; gap: 6px; }
 .trust-row svg { color: var(--lime); width: 15px; height: 15px; }
@@ -129,10 +129,10 @@ button, a { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 640px) {
   .topbar { min-height: 64px; }
   .topbar-meta > span { display: none; }
-  .brand > span:last-child { display: none; }
+  .brand { font-size: 11px; letter-spacing: .1em; gap: 9px; }
   .mini-cta { padding: 10px 13px; }
   .hero { min-height: auto; padding: 46px 20px 58px; gap: 38px; }
-  .hero h1 { font-size: clamp(50px, 17vw, 72px); margin-top: 24px; }
+  .hero h1 { font-size: clamp(40px, 13.4vw, 72px); margin-top: 24px; }
   .hero-lead { font-size: 17px; }
   .hero-actions { align-items: stretch; flex-direction: column; }
   .primary-cta { min-height: 60px; justify-content: center; font-size: 12px; padding: 0 16px; }
@@ -450,7 +450,7 @@ footer { background: #070709; border-top: 1px solid rgba(255,255,255,.1); }
 .game-stage-bar i { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); }
 .game-stage-bar b { color: var(--lime); font-weight: 700; }
 .canvas-game, .memory-game, .turbo-game { height: 560px; border-radius: 11px; overflow: hidden; position: relative; background: #0e0e15; }
-.canvas-game canvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: crosshair; }
+.canvas-game canvas { width: 100%; height: 100%; display: block; touch-action: pan-y; cursor: crosshair; }
 .canvas-hud { position: absolute; z-index: 3; inset: 0 0 auto; min-height: 48px; padding: 0 17px; display: flex; justify-content: space-between; align-items: center; pointer-events: none; background: linear-gradient(to bottom, rgba(5,5,10,.84), transparent); font: 700 9px/1 'Space Grotesk'; letter-spacing: .1em; }
 .canvas-hud strong { color: var(--lime); }
 .mini-intro { position: absolute; z-index: 5; inset: 0; padding: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: radial-gradient(circle, rgba(25,16,46,.56), rgba(6,6,11,.88)); backdrop-filter: blur(3px); }
@@ -518,7 +518,7 @@ footer { background: #070709; border-top: 1px solid rgba(255,255,255,.1); }
   .actual-game-embed.compact { height: auto; }
   .game-stage { padding: 7px; border-radius: 13px; }
   .game-stage-bar { min-height: 37px; }
-  .canvas-game, .memory-game, .turbo-game { height: 470px; }
+  .memory-game, .turbo-game { height: 470px; }
   .turbo-game { padding: 28px 20px; }
   .turbo-track-art { height: 190px; }
   .turbo-hint { display: none; }
@@ -666,6 +666,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid #fff; outline-offset:
   .section-shell { padding-top: 88px; padding-bottom: 88px; }
   .section-intro, .curriculum-head, .arcade-head, .mentor-shell, .audience-shell, .offer-shell, .faq-shell { grid-template-columns: 1fr; gap: 42px; }
   .section-intro .section-kicker { grid-column: auto; margin-bottom: -18px; }
+  .curriculum-head .section-kicker { margin-bottom: 18px; }
   .arcade-content { padding: 18px; }
   .arcade-nav { grid-template-columns: 1fr auto; }
   .arcade-nav > div { display: none; }
@@ -770,4 +771,28 @@ a:focus-visible, button:focus-visible { outline: 3px solid #fff; outline-offset:
   .side-controls button { width: 56px; height: 56px; font-size: 18px; }
   .side-controls button svg { width: 22px; height: 22px; }
   .mini-intro p { font-size: 12px; }
+}
+
+/* ---------- Jogos no celular: canvas com proporção fixa e botões numa barra abaixo, sem sobrepor o jogo ---------- */
+@media (max-width: 640px) {
+  .canvas-game { height: auto; display: flex; flex-direction: column; }
+  .canvas-game canvas { height: auto; aspect-ratio: 5 / 4; flex: none; }
+  .canvas-game .side-controls { position: static; inset: auto; width: 100%; min-height: 78px; padding: 10px 8px 12px; display: flex; justify-content: center; gap: 10px; background: #0b0b11; border-top: 1px solid rgba(255,255,255,.08); }
+  .canvas-game .side-controls button { width: 58px; height: 58px; flex: none; border-radius: 12px; }
+  .canvas-game .side-controls button svg { width: 24px; height: 24px; }
+  .canvas-game .dpad-controls { justify-content: space-between; gap: 6px; }
+  .canvas-game .dpad-controls button { width: 54px; height: 54px; }
+  .canvas-hud { min-height: 34px; padding: 0 10px; font-size: 7px; }
+}
+
+/* ---------- Jogos em iframe (Tupã e Fronteira): no celular o jogo só captura o toque depois de "Tocar para jogar" ---------- */
+.actual-game-embed { position: relative; }
+.embed-gate, .embed-exit { display: none; }
+@media (max-width: 900px), (hover: none) and (pointer: coarse) {
+  .actual-game-embed:not(.compact).gated iframe { pointer-events: none; }
+  .actual-game-embed:not(.compact).gated .embed-gate { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px; text-align: center; color: #fff; background: linear-gradient(to top, rgba(6,8,12,.9), rgba(6,8,12,.35)); }
+  .embed-gate span { color: #b9c2c9; font: 600 11px/1.5 'DM Sans', sans-serif; max-width: 300px; }
+  .embed-gate button, .embed-exit { min-height: 48px; padding: 0 20px; border: 0; border-radius: 9px; display: inline-flex; align-items: center; gap: 8px; color: #09090b; background: var(--lime); font: 700 11px/1 'Space Grotesk'; letter-spacing: .08em; }
+  .embed-gate button svg { width: 16px; height: 16px; }
+  .actual-game-embed:not(.compact):not(.gated) .embed-exit { position: absolute; z-index: 4; top: 10px; right: 10px; min-height: 40px; padding: 0 14px; display: inline-flex; color: #fff; background: rgba(8,8,13,.78); border: 1px solid rgba(255,255,255,.25); }
 }

@@ -75,6 +75,20 @@
   .tb{position:absolute;width:58px;height:58px;border-radius:50%;background:var(--panel);border:1px solid var(--line);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;pointer-events:auto}
   .tb:active{background:var(--amber);color:#000}
   #tE{right:24px;bottom:200px}#tF{right:96px;bottom:150px}#tG{right:24px;bottom:270px}#tR{right:96px;bottom:220px}#tQ{right:168px;bottom:190px}
+  /* celular: HUD compacto e controles de toque que não cobrem a cena */
+  @media (max-width:640px){
+    #mission{left:8px;top:8px;width:50vw;padding:7px 9px}#mission h2{font-size:12px}#mission .desc{font-size:10px;margin-bottom:4px}#mission ol{font-size:10px}#mission li{padding:2px 0 2px 16px}#mission .tipo{font-size:9px}
+    #status{right:8px;top:8px;min-width:0;padding:6px 8px}#status .clock{font-size:16px}#status .meta,#status .rep{font-size:9px;margin-top:2px}
+    #helpBtn{right:8px;top:74px;width:30px;height:30px;font-size:13px}
+    #hint{display:none}#radio{top:64px;font-size:10px;max-width:84vw;white-space:normal;text-align:center}
+    #vitals{left:8px;bottom:8px;width:118px;padding:6px 8px}.lbl{font-size:9px}.bar{height:5px;margin:2px 0 5px}#car .spd{font-size:15px}#car{font-size:10px}
+    #minimap{right:8px;bottom:8px;width:82px;height:82px;border-radius:8px}
+    #prompt{bottom:30%;font-size:12px;padding:6px 10px}#toast{font-size:13px}#toast.big{font-size:16px}
+    #stick{left:12px;bottom:118px;width:96px;height:96px}#stick i{left:28px;top:28px;width:40px;height:40px}
+    .tb{width:46px;height:46px;font-size:11px}#tE{right:12px;bottom:150px}#tF{right:66px;bottom:118px}#tG{right:12px;bottom:206px}#tR{right:66px;bottom:174px;font-size:9px}#tQ{right:120px;bottom:150px}
+    #menu .box{padding:18px 16px}#menu h1{font-size:26px}#menu p{font-size:13px}#menu .keys{display:none}#menu button{font-size:14px;padding:10px 18px}
+    .sheet{padding:14px}.sheet h1{font-size:18px}.sheet p,.sheet li{font-size:12px}
+  }
   html.preview-mode #menu,html.preview-mode #mission,html.preview-mode #helpBtn,html.preview-mode #hint,html.preview-mode #status,html.preview-mode #vitals,html.preview-mode #minimap,html.preview-mode #prompt,html.preview-mode #toast,html.preview-mode #radio,html.preview-mode #touch{display:none!important}
   html.preview-mode #hud.on{display:block}
   html.preview-mode canvas#c{pointer-events:none}
@@ -731,7 +745,7 @@ class Game{
     addEventListener('mousemove',e=>{if(document.pointerLockElement===this.canvas){this.camYaw+=e.movementX*0.0028;this.camPitch=clamp(this.camPitch+e.movementY*0.002,0.05,1.1);this.mouseT=1.5}});
     // touch
     const st=document.getElementById('stick'),knob=st.querySelector('i');let sid=null,sc={x:0,y:0};
-    st.addEventListener('touchstart',e=>{const t=e.changedTouches[0];sid=t.identifier;const r=st.getBoundingClientRect();sc={x:r.left+60,y:r.top+60};e.preventDefault()},{passive:false});
+    st.addEventListener('touchstart',e=>{const t=e.changedTouches[0];sid=t.identifier;const r=st.getBoundingClientRect();sc={x:r.left+r.width/2,y:r.top+r.height/2};e.preventDefault()},{passive:false});
     addEventListener('touchmove',e=>{for(const t of e.changedTouches){if(t.identifier===sid){const dx=clamp((t.clientX-sc.x)/45,-1,1),dy=clamp((t.clientY-sc.y)/45,-1,1);this.touch.x=dx;this.touch.y=-dy;knob.style.transform=`translate(${dx*35}px,${dy*35}px)`}else if(t.clientX>innerWidth/2&&this._camT&&t.identifier===this._camT.id){this.camYaw+=(t.clientX-this._camT.x)*0.006;this._camT.x=t.clientX;this.mouseT=1.5}}},{passive:false});
     addEventListener('touchend',e=>{for(const t of e.changedTouches){if(t.identifier===sid){sid=null;this.touch.x=0;this.touch.y=0;knob.style.transform=''}if(this._camT&&t.identifier===this._camT.id)this._camT=null}});
     this.canvas.addEventListener('touchstart',e=>{const t=e.changedTouches[0];if(t.clientX>innerWidth/2)this._camT={id:t.identifier,x:t.clientX}},{passive:true});
