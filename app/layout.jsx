@@ -1,4 +1,5 @@
 import './globals.css'
+import MetaPixel from '../components/MetaPixel'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '')
 const pageTitle = 'Imersão GPT 6 + Fable 5.1 | Games com IA ao vivo'
@@ -50,7 +51,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body>{children}<MetaPixel /></body>
     </html>
   )
 }
