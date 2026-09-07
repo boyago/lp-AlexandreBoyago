@@ -1,0 +1,26 @@
+{
+  "circuit": {
+    "bytes": 6713460,
+    "triangles": 113060
+  },
+  "fusca": {
+    "bytes": 3230800,
+    "triangles": 44998,
+    "originalTriangles": 550780
+  },
+  "mclaren": {
+    "bytes": 2746236,
+    "triangles": 45000,
+    "originalTriangles": 328961
+  },
+  "porsche": {
+    "bytes": 3380488,
+    "triangles": 44976,
+    "originalTriangles": 996723
+  },
+  "gaz": {
+    "bytes": 1624328,
+    "triangles": 45000,
+    "originalTriangles": 911526
+  }
+}

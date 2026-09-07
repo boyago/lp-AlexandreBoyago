@@ -1,17 +1,35 @@
-import Image from 'next/image'
-import { FlagCheckered } from '@phosphor-icons/react/dist/ssr'
+'use client'
 
-// Prévia do Era Racing enquanto a exportação jogável do projeto Blender ainda está em produção.
+import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
+import { Play, X } from '@phosphor-icons/react'
+
 export default function FrontierPreview() {
+  const [live, setLive] = useState(false)
+  const frame = useRef(null)
+  useEffect(() => {
+    if (!live || !frame.current) return
+    const observer = new IntersectionObserver(([entry]) => {
+      frame.current?.contentWindow?.postMessage({ type: 'era-racing-visibility', visible: entry.isIntersecting }, window.location.origin)
+    }, { threshold: 0 })
+    observer.observe(frame.current)
+    return () => observer.disconnect()
+  }, [live])
+  if (live) return (
+    <div className="race-embed-shell">
+      <div className="race-embed-toolbar"><span>ERA RACING · BETA WEB</span><button type="button" onClick={() => setLive(false)}><X /> FECHAR JOGO</button></div>
+      <div className="actual-game-embed"><iframe ref={frame} src="/games/era-racing/index.html" title="Era Racing, corrida 3D com carros clássicos, esportivos e Fórmula 1" allow="fullscreen" /></div>
+    </div>
+  )
   return (
     <div className="cinematic-game-preview">
       <Image src="/images/era-racing-blender.png" alt="Prévia de Era Racing criada no Blender, com um carro clássico e um Fórmula 1 alinhados em uma pista 3D" fill sizes="(max-width: 900px) 100vw, 1100px" />
       <div className="cinematic-shade" />
       <div className="cinematic-copy">
-        <span>NOVO PROJETO · CRIADO NO BLENDER</span>
+        <span>BLENDER 3D · BETA JOGÁVEL</span>
         <h3>Era Racing</h3>
-        <p>Um encontro impossível entre épocas: carros clássicos, esportivos modernos e máquinas de Fórmula 1 disputam a mesma pista em um game 3D.</p>
-        <strong className="cinematic-status"><FlagCheckered weight="fill" /> GAME EM DESENVOLVIMENTO</strong>
+        <p>Fusca, pickup clássica, Porsche e Fórmula 1 na mesma pista. Escolha seu carro e dispute uma corrida contra a IA.</p>
+        <button type="button" className="cinematic-play" onClick={() => setLive(true)}><Play weight="fill" /> JOGAR ERA RACING</button>
       </div>
     </div>
   )

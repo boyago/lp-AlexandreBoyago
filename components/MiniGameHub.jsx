@@ -18,7 +18,7 @@ const games = [
   { id: 'raid', title: 'Pixel Raid', genre: 'Defesa em ondas', icon: '👾', color: 'pink', playable: true },
   { id: 'river', title: 'Canyon Strike', genre: 'Estilo River Raid (Atari)', icon: '✈️', color: 'cyan', playable: true },
   { id: 'jungle', title: 'Jungle Leap', genre: 'Estilo Pitfall! (Atari)', icon: '🧭', color: 'gold', playable: true },
-  { id: 'frontier', title: 'Era Racing', genre: 'Clássicos x Modernos x F1', icon: '🏁', color: 'cinematic', art: '/images/era-racing-blender.png', playable: false, preview3d: true },
+  { id: 'frontier', title: 'Era Racing', genre: 'Clássicos x Modernos x F1', icon: '🏁', color: 'cinematic', art: '/images/era-racing-blender.png', playable: true, preview3d: true },
 ]
 
 function GameCardArtwork({ game }) {
@@ -256,7 +256,7 @@ export default function MiniGameHub() {
         {selected === 'jungle' && <JungleLeapGame />}
         {selected === 'frontier' && <FrontierPreview />}
       </div>
-      <div className="portal-heading"><div><span>ESCOLHA SEU PRÓXIMO JOGO</span><strong>Catálogo AI Game Arcade</strong></div><small>7 JOGÁVEIS · 1 PROTÓTIPO 3D</small></div>
+      <div className="portal-heading"><div><span>ESCOLHA SEU PRÓXIMO JOGO</span><strong>Catálogo AI Game Arcade</strong></div><small>8 JOGÁVEIS · ERA RACING EM BETA</small></div>
       <div className="game-selector" role="tablist" aria-label="Catálogo de games">
         {games.map((game, index) => (
           <button key={game.id} type="button" role="tab" aria-selected={selected === game.id} className={`portal-game-card ${game.color} ${game.id === 'frontier' ? 'portal-card-featured' : ''} ${selected === game.id ? 'active' : ''}`} onClick={() => chooseGame(game)}>

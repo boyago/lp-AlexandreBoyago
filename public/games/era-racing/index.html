@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Era Racing | Clássicos, esportivos e Fórmula 1</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+</head>
+<body>
+  <canvas id="track" tabindex="0" aria-label="Pista 3D do Era Racing"></canvas>
+  <header class="topline"><div><span class="eyebrow">CLÁSSICOS × ESPORTIVOS × F1</span><h1>ERA <em>RACING</em><small>BETA</small></h1></div><button id="sound" type="button" aria-pressed="false">Som: desligado</button></header>
+  <div id="loading" class="loading" role="status"><strong>Preparando a pista…</strong><span id="load-message">Carregando os modelos 3D</span><progress id="load-progress" max="100" value="0"></progress><button id="retry" type="button" hidden>Tentar novamente</button></div>
+  <section id="garage" class="garage" aria-label="Escolha os carros" hidden>
+    <div class="selection"><label for="player">SEU CARRO</label><select id="player"></select></div>
+    <div class="selection rival"><label for="rival">ADVERSÁRIO · IA</label><select id="rival"></select></div>
+    <div class="race-options"><label>Voltas <select id="laps"><option>1</option><option selected>3</option><option>5</option></select></label><label>IA <select id="difficulty"><option value="0">Fácil</option><option value="1" selected>Normal</option><option value="2">Difícil</option></select></label><button id="start" class="primary" type="button">CORRER →</button></div>
+    <p>Carros do projeto Blender. Desempenho arcade equilibrado.</p>
+  </section>
+  <div id="race-hud" hidden>
+    <div class="telemetry"><div><strong id="speed">0</strong><small>km/h</small></div><div><strong id="place">1º</strong><small>de 2</small></div><div><strong id="lap">1 / 3</strong><small>voltas</small></div><div><strong id="time">0.0</strong><small>segundos</small></div></div>
+    <div class="race-tools"><button id="camera" type="button">Câmera</button><button id="pause" type="button">Pausar</button><button id="menu" type="button">Garagem</button></div>
+    <div id="notice" class="notice" aria-live="polite"></div>
+    <div class="driving-controls" aria-label="Controles de pilotagem"><div><button data-key="ArrowLeft" aria-label="Virar à esquerda">◀</button><button data-key="ArrowRight" aria-label="Virar à direita">▶</button></div><div><button data-key="ArrowDown" class="brake" aria-label="Frear">FREIO</button><button data-key="ArrowUp" class="gas" aria-label="Acelerar">ACELERAR</button></div></div>
+    <p class="keyboard-help">W / ↑ acelera · S / ↓ freia · A D / ← → direção · C câmera · P pausa · R reinicia</p>
+  </div>
+  <div id="center" class="center-message" hidden><strong id="center-title"></strong><p id="center-detail"></p><button id="resume" class="primary" type="button" hidden>CONTINUAR</button><button id="again" class="primary" type="button" hidden>CORRER DE NOVO</button></div>
+  <script type="module" src="./game.mjs"></script>
+</body>
+</html>

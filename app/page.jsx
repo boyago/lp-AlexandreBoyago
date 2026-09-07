@@ -191,7 +191,7 @@ export default function Home() {
 
       <section className="arcade-showcase" id="playground">
         <div className="section-shell">
-          <div className="arcade-head"><div><span className="section-kicker light-kicker">// SEU PORTAL DE GAMES COM IA</span><h2>Oito ideias. <br /><span>Sete para jogar agora.</span></h2></div><p>Use os cards para trocar de experiência sem sair da página. O oitavo projeto é uma prévia criada no Blender que mostra até onde o visual pode chegar.</p></div>
+          <div className="arcade-head"><div><span className="section-kicker light-kicker">// SEU PORTAL DE GAMES COM IA</span><h2>Oito ideias. <br /><span>Todas para jogar agora.</span></h2></div><p>Use os cards para trocar de experiência sem sair da página. Experimente também o Era Racing: uma corrida 3D com modelos criados no Blender, agora em versão beta para navegador.</p></div>
           <MiniGameHub />
         </div>
       </section>

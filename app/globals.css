@@ -787,14 +787,14 @@ a:focus-visible, button:focus-visible { outline: 3px solid #fff; outline-offset:
   .canvas-hud { min-height: 34px; padding: 0 10px; font-size: 7px; }
 }
 
-/* ---------- Jogos em iframe (Tupã e Fronteira): no celular o jogo só captura o toque depois de "Tocar para jogar" ---------- */
+/* Jogos em iframe recebem toques diretamente. A barra fica fora da área de pilotagem. */
 .actual-game-embed { position: relative; }
-.embed-gate, .embed-exit { display: none; }
-@media (max-width: 900px), (hover: none) and (pointer: coarse) {
-  .actual-game-embed:not(.compact).gated iframe { pointer-events: none; }
-  .actual-game-embed:not(.compact).gated .embed-gate { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px; text-align: center; color: #fff; background: linear-gradient(to top, rgba(6,8,12,.9), rgba(6,8,12,.35)); }
-  .embed-gate span { color: #b9c2c9; font: 600 11px/1.5 'DM Sans', sans-serif; max-width: 300px; }
-  .embed-gate button, .embed-exit { min-height: 48px; padding: 0 20px; border: 0; border-radius: 9px; display: inline-flex; align-items: center; gap: 8px; color: #09090b; background: var(--lime); font: 700 11px/1 'Space Grotesk'; letter-spacing: .08em; }
-  .embed-gate button svg { width: 16px; height: 16px; }
-  .actual-game-embed:not(.compact):not(.gated) .embed-exit { position: absolute; z-index: 4; top: 10px; right: 10px; min-height: 40px; padding: 0 14px; display: inline-flex; color: #fff; background: rgba(8,8,13,.78); border: 1px solid rgba(255,255,255,.25); }
+.race-embed-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 9px 12px; background: #10151d; }
+.race-embed-toolbar > span { color: #b8c4d0; font: 700 12px/1.4 'Space Grotesk'; }
+.race-embed-toolbar button { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 8px 12px; border: 1px solid #ffffff30; border-radius: 7px; color: #fff; background: #24313e; font: 700 12px/1 'Space Grotesk'; cursor: pointer; }
+.race-embed-toolbar svg { width: 16px; height: 16px; }
+@media (hover: none), (pointer: coarse) {
+  .game-selector > button.portal-game-card:hover { transform: none; }
+  .portal-game-card:hover .portal-card-art > img { transform: none; filter: none; }
+  .portal-game-card:hover .portal-card-play { transform: none; }
 }
