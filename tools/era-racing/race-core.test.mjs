@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { Duel, rectanglesOverlap, VEHICLES } from '../../public/games/era-racing/race-core.mjs'
+import { Duel, rectanglesOverlap, VEHICLES } from '../../public/games/era-racing/race-core.js'
 
 test('accelerating can finish a full race, with a bounded speed and lap counter', () => {
   const race = new Duel(3,1)

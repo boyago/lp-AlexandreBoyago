@@ -25,6 +25,21 @@
     <p class="keyboard-help">W / ↑ acelera · S / ↓ freia · A D / ← → direção · C câmera · P pausa · R reinicia</p>
   </div>
   <div id="center" class="center-message" hidden><strong id="center-title"></strong><p id="center-detail"></p><button id="resume" class="primary" type="button" hidden>CONTINUAR</button><button id="again" class="primary" type="button" hidden>CORRER DE NOVO</button></div>
-  <script type="module" src="./game.mjs"></script>
+  <script>
+    // Catch module download failures too: game.js cannot handle its own import errors.
+    const retry = document.getElementById('retry')
+    retry.onclick = () => location.reload()
+    const loadingTimer = setTimeout(() => {
+      document.getElementById('load-message').textContent = 'O carregamento está demorando. Confira sua conexão ou tente novamente.'
+      retry.hidden = false
+    }, 120000)
+    import('./game.js').catch(error => {
+      document.querySelector('#loading strong').textContent = 'Não foi possível abrir a corrida'
+      document.getElementById('load-message').textContent = 'Não conseguimos carregar os arquivos do jogo. Confira sua conexão e tente novamente.'
+      document.getElementById('load-progress').hidden = true
+      retry.hidden = false
+      console.error('Era Racing: falha ao carregar o jogo', error)
+    }).finally(() => clearTimeout(loadingTimer))
+  </script>
 </body>
 </html>

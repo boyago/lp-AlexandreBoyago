@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import { GLTFLoader } from './vendor/loaders/GLTFLoader.js'
-import { Duel, VEHICLES, trackPosition, heading, clamp } from './race-core.mjs'
+import { Duel, VEHICLES, trackPosition, heading, clamp } from './race-core.js'
 
 const $ = id => document.getElementById(id)
 const canvas = $('track'), keys = new Set(), cache = new Map()

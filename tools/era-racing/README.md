@@ -10,6 +10,7 @@ Versão independente em `public/games/era-racing/`. Publique essa pasta em um se
 - Bibliotecas Three.js 0.180.0 locais, com licença em `vendor/LICENSE.txt`. Sem dependência de CDN durante o jogo.
 - Carregamento inicial da pista, Fusca e McLaren; Porsche e GAZ carregam apenas ao serem selecionados.
 - Som de motor sintetizado no navegador. Não é gravação real dos veículos.
+- Módulos com extensão `.js` para a Hostinger servir como JavaScript. Arquivos `.mjs` eram enviados como `text/plain`, bloqueando o início do jogo. O HTML também mostra uma opção de tentar novamente se os módulos falharem ou o carregamento demorar.
 
 ## Reexportar
 

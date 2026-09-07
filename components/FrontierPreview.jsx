@@ -18,7 +18,7 @@ export default function FrontierPreview() {
   if (live) return (
     <div className="race-embed-shell">
       <div className="race-embed-toolbar"><span>ERA RACING · BETA WEB</span><button type="button" onClick={() => setLive(false)}><X /> FECHAR JOGO</button></div>
-      <div className="actual-game-embed"><iframe ref={frame} src="/games/era-racing/index.html" title="Era Racing, corrida 3D com carros clássicos, esportivos e Fórmula 1" allow="fullscreen" /></div>
+      <div className="actual-game-embed"><iframe ref={frame} src="/games/era-racing/index.html?v=js-modules-2" title="Era Racing, corrida 3D com carros clássicos, esportivos e Fórmula 1" allow="fullscreen" /></div>
     </div>
   )
   return (
