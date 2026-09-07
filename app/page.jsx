@@ -46,7 +46,7 @@ const faqItems = [
   { q: 'O que eu vou construir?', a: 'Você acompanhará a criação de um game jogável e de um portal visual para organizar e hospedar games criados com IA, do conceito à publicação.' },
   { q: 'Preciso assinar outras ferramentas?', a: 'O primeiro lote da imersão custa R$ 49. Eventuais planos pagos ou créditos de ferramentas de terceiros não estão incluídos; durante a aula, Alexandre indicará as opções usadas e possíveis alternativas.' },
   { q: 'A aula ficará gravada?', a: 'Sim. Quem adquirir a imersão poderá assistir à gravação durante 3 meses.' },
-  { q: 'Vou receber os projetos da aula?', a: 'Sim. Todos os projetos desenvolvidos durante a imersão serão disponibilizados no GitHub ao final da aula.' },
+  { q: 'Os arquivos dos projetos estão incluídos?', a: 'Não. A inscrição inclui a imersão ao vivo e o acesso à gravação por 3 meses. Os arquivos dos projetos serão oferecidos separadamente como item opcional no checkout.' },
   { q: 'Como recebo o acesso?', a: 'Após a confirmação da compra, as instruções de acesso serão enviadas pelos canais informados no checkout.' },
 ]
 
@@ -151,7 +151,7 @@ export default function Home() {
             <CheckoutLink className="primary-cta hero-primary-cta" onUnavailable={showCheckoutNotice} label="Participar da imersão"><Play weight="fill" /> QUERO PARTICIPAR <ArrowRight weight="bold" /></CheckoutLink>
             <div className="event-note"><strong>SÁBADO · 26/09/2026 · 08H</strong><span>Online e ao vivo com Alexandre Boyago</span></div>
           </div>
-          <div className="trust-row" aria-label="Destaques da imersão"><span><CheckCircle weight="fill" /> Demonstrações práticas</span><span><CheckCircle weight="fill" /> Projeto completo</span><span><CheckCircle weight="fill" /> Investimento único</span></div>
+          <div className="trust-row" aria-label="Destaques da imersão"><span><CheckCircle weight="fill" /> Demonstrações práticas</span><span><CheckCircle weight="fill" /> Construção ao vivo</span><span><CheckCircle weight="fill" /> Investimento único</span></div>
         </div>
         <GamePreview />
       </section>
@@ -169,7 +169,7 @@ export default function Home() {
 
       <section className="build-section" aria-labelledby="build-title">
         <div className="section-shell build-shell">
-          <div className="build-copy"><span className="section-kicker light-kicker">// BUILD SESSION, NÃO PALESTRA</span><h2 id="build-title">Uma ideia entra. <br /><span>Um projeto sai.</span></h2><p>Você acompanha o raciocínio inteiro, inclusive as escolhas, erros, ajustes e atalhos que transformam uma conversa com IA em software jogável.</p>
+          <div className="build-copy"><span className="section-kicker light-kicker">// BUILD SESSION, NÃO PALESTRA</span><h2 id="build-title">Uma ideia entra. <br /><span>O game ganha vida.</span></h2><p>Você acompanha o raciocínio inteiro, inclusive as escolhas, erros, ajustes e atalhos que transformam uma conversa com IA em software jogável.</p>
             <div className="build-steps"><div><span>00</span><strong>IDEIA</strong><small>conceito + mecânica</small></div><ArrowRight /><div><span>01</span><strong>BUILD</strong><small>game + interface</small></div><ArrowRight /><div><span>02</span><strong>SHIP</strong><small>portal publicado</small></div></div>
           </div>
           <div className="code-card" aria-label="Exemplo visual do fluxo de criação com IA">
@@ -182,7 +182,7 @@ export default function Home() {
 
       <section className="curriculum section-light" id="conteudo">
         <div className="section-shell">
-          <div className="section-intro curriculum-head dark-intro"><div><span className="section-kicker">// ROTEIRO DA IMERSÃO</span><h2>Três blocos. <br /><em>Uma entrega.</em></h2></div><p>Sem maratona de teoria. O conteúdo avança na mesma ordem em que um produto é construído.</p></div>
+          <div className="section-intro curriculum-head dark-intro"><div><span className="section-kicker">// ROTEIRO DA IMERSÃO</span><h2>Três blocos. <br /><em>Uma experiência prática.</em></h2></div><p>Sem maratona de teoria. O conteúdo avança na mesma ordem em que um produto é construído.</p></div>
           <div className="agenda-grid">
             {agenda.map((block) => { const Icon = block.icon; return <article className={`agenda-card ${block.className}`} key={block.tag}><div className="agenda-tag"><span>{block.tag}</span><Icon weight="duotone" /></div><h3>{block.title}</h3><p>{block.description}</p><ul>{block.bullets.map((bullet) => <li key={bullet}><Check weight="bold" /> {bullet}</li>)}</ul></article> })}
           </div>
@@ -191,7 +191,7 @@ export default function Home() {
 
       <section className="arcade-showcase" id="playground">
         <div className="section-shell">
-          <div className="arcade-head"><div><span className="section-kicker light-kicker">// SEU PORTAL DE GAMES COM IA</span><h2>Oito ideias. <br /><span>Todas jogáveis na página.</span></h2></div><p>Jogue no destaque e use os cards abaixo para trocar de experiência sem sair da página. A oitava é um protótipo 3D em tempo real que mostra até onde o visual pode chegar.</p></div>
+          <div className="arcade-head"><div><span className="section-kicker light-kicker">// SEU PORTAL DE GAMES COM IA</span><h2>Oito ideias. <br /><span>Sete para jogar agora.</span></h2></div><p>Use os cards para trocar de experiência sem sair da página. O oitavo projeto é uma prévia criada no Blender que mostra até onde o visual pode chegar.</p></div>
           <MiniGameHub />
         </div>
       </section>
@@ -214,7 +214,7 @@ export default function Home() {
         <div className="section-shell offer-shell">
           <div className="offer-copy dark-intro">
             <div><span className="section-kicker">// SUA VAGA NA IMERSÃO</span><h2>Um sábado para <br /><em>mudar seu jeito de criar.</em></h2></div>
-            <div className="offer-summary"><p>Conheça os modelos enquanto constrói algo que você pode abrir, jogar, mostrar e continuar evoluindo.</p><div className="countdown-line"><Timer weight="duotone" /><div><strong>{daysLeft === null ? '…' : daysLeft} dias</strong><span>até a imersão, dia 26/09 às 08h</span></div></div></div>
+            <div className="offer-summary"><p>Conheça os modelos enquanto acompanha um game sair do prompt, ganhar jogabilidade e chegar ao navegador.</p><div className="countdown-line"><Timer weight="duotone" /><div><strong>{daysLeft === null ? '…' : daysLeft} dias</strong><span>até a imersão, dia 26/09 às 08h</span></div></div></div>
           </div>
 
           <div className="pricing-lots" aria-label="Lotes de inscrição da imersão">
@@ -223,7 +223,7 @@ export default function Home() {
               <div className="lot-progress-copy"><strong>ÚLTIMAS VAGAS DESTE LOTE</strong><span>Próximo valor: R$ 97</span></div>
               <div className="lot-progress" role="progressbar" aria-label="Oitenta e dois por cento do primeiro lote preenchido" aria-valuemin="0" aria-valuemax="100" aria-valuenow="82"><i /></div>
               <h3>GPT 6 + <br />Fable 5.1</h3>
-              <ul><li><CheckCircle weight="fill" /> Imersão online e ao vivo às 08h</li><li><CheckCircle weight="fill" /> Games e portal construídos na prática</li><li><CheckCircle weight="fill" /> Gravação disponível por 3 meses</li><li><CheckCircle weight="fill" /> Projetos entregues pelo GitHub</li></ul>
+              <ul><li><CheckCircle weight="fill" /> Imersão online e ao vivo às 08h</li><li><CheckCircle weight="fill" /> Games e portal construídos na prática</li><li><CheckCircle weight="fill" /> Gravação disponível por 3 meses</li></ul>
               <div className="price-label">DE <s>R$ 149</s> POR APENAS</div><div className="price"><span>R$</span><strong>49</strong><small>,00</small></div>
               <CheckoutLink className="price-cta" onUnavailable={showCheckoutNotice} label="Garantir minha vaga no primeiro lote por quarenta e nove reais">GARANTIR MINHA VAGA <ArrowRight weight="bold" /></CheckoutLink><p className="secure-note">Pagamento único em ambiente seguro</p>
             </article>

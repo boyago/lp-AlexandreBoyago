@@ -1,38 +1,17 @@
-'use client'
-
-import { useState } from 'react'
 import Image from 'next/image'
-import { Play } from '@phosphor-icons/react'
-import { EmbedGate } from './ActualGameEmbed'
+import { FlagCheckered } from '@phosphor-icons/react/dist/ssr'
 
-// Fronteira 2049: a imagem do gameplay abre a tela; ao clicar, carrega o protótipo 3D em Three.js
-// (public/games/fronteira-2049/index.html) com cânion procedural, névoa, pôr do sol e buggy dirigível.
+// Prévia do Era Racing enquanto a exportação jogável do projeto Blender ainda está em produção.
 export default function FrontierPreview() {
-  const [live, setLive] = useState(false)
-  const [gated, setGated] = useState(true)
-  if (live) {
-    return (
-      <div className={`actual-game-embed ${gated ? 'gated' : ''}`}>
-        <iframe
-          src="/games/fronteira-2049/index.html"
-          title="Fronteira 2049, protótipo 3D de mundo aberto criado com inteligência artificial"
-          loading="eager"
-          sandbox="allow-scripts allow-pointer-lock"
-          allow="fullscreen"
-        />
-        <EmbedGate gated={gated} onToggle={() => setGated((value) => !value)} />
-      </div>
-    )
-  }
   return (
     <div className="cinematic-game-preview">
-      <Image src="/images/fronteira-2049-gameplay.png" alt="Gameplay real de Fronteira 2049, com um veículo explorando um mundo aberto 3D entre árvores e cânions" fill sizes="(max-width: 900px) 100vw, 1100px" />
+      <Image src="/images/era-racing-blender.png" alt="Prévia de Era Racing criada no Blender, com um carro clássico e um Fórmula 1 alinhados em uma pista 3D" fill sizes="(max-width: 900px) 100vw, 1100px" />
       <div className="cinematic-shade" />
       <div className="cinematic-copy">
-        <span>GAMEPLAY REAL · PROTÓTIPO 3D JOGÁVEL</span>
-        <h3>Fronteira 2049</h3>
-        <p>Esta é uma cena real do protótipo rodando no navegador: mundo aberto em 3D, árvores, cânions e um veículo de exploração para dirigir com WASD.</p>
-        <button type="button" className="cinematic-play" onClick={() => setLive(true)}><Play weight="fill" /> ABRIR PROTÓTIPO 3D</button>
+        <span>NOVO PROJETO · CRIADO NO BLENDER</span>
+        <h3>Era Racing</h3>
+        <p>Um encontro impossível entre épocas: carros clássicos, esportivos modernos e máquinas de Fórmula 1 disputam a mesma pista em um game 3D.</p>
+        <strong className="cinematic-status"><FlagCheckered weight="fill" /> GAME EM DESENVOLVIMENTO</strong>
       </div>
     </div>
   )

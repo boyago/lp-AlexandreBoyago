@@ -757,9 +757,11 @@ a:focus-visible, button:focus-visible { outline: 3px solid #fff; outline-offset:
   .cinematic-copy p { font-size: 11px; }
 }
 
-/* Fronteira 2049: botão que troca a arte conceitual pelo protótipo 3D */
+/* Era Racing: status da prévia criada no Blender */
 .cinematic-play { min-height: 44px; padding: 0 18px; border: 0; border-radius: 8px; display: inline-flex; align-items: center; gap: 8px; color: #09090b; background: var(--lime); font: 700 10px/1 'Space Grotesk'; letter-spacing: .08em; cursor: pointer; }
 .cinematic-play svg { width: 15px; height: 15px; }
+.cinematic-copy strong.cinematic-status { min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px; color: #09090b; background: var(--lime); border: 0; font-size: 10px; }
+.cinematic-status svg { width: 16px; height: 16px; }
 .cinematic-copy p { margin-bottom: 18px; }
 
 /* Controles de toque: sempre visíveis, maiores no celular */

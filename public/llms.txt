@@ -29,5 +29,5 @@ Alexandre Boyago é desenvolvedor, designer e criador de produtos digitais. Tem 
 - Não é necessário ser especialista em programação; a construção é guiada passo a passo.
 - O ingresso não inclui eventuais assinaturas ou créditos de ferramentas de terceiros.
 - O conteúdo ficará gravado e disponível por três meses para quem adquirir a imersão.
-- Todos os projetos desenvolvidos durante a aula serão disponibilizados no GitHub ao final da imersão.
+- Os arquivos dos projetos não estão incluídos no ingresso e poderão ser oferecidos separadamente como item opcional no checkout.
 - As instruções de acesso serão enviadas após a confirmação da compra.

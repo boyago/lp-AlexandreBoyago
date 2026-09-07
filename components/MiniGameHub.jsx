@@ -18,7 +18,7 @@ const games = [
   { id: 'raid', title: 'Pixel Raid', genre: 'Defesa em ondas', icon: '👾', color: 'pink', playable: true },
   { id: 'river', title: 'Canyon Strike', genre: 'Estilo River Raid (Atari)', icon: '✈️', color: 'cyan', playable: true },
   { id: 'jungle', title: 'Jungle Leap', genre: 'Estilo Pitfall! (Atari)', icon: '🧭', color: 'gold', playable: true },
-  { id: 'frontier', title: 'Fronteira 2049', genre: 'Open world 3D', icon: '◈', color: 'cinematic', art: '/images/fronteira-2049-gameplay.png', playable: true, preview3d: true },
+  { id: 'frontier', title: 'Era Racing', genre: 'Clássicos x Modernos x F1', icon: '🏁', color: 'cinematic', art: '/images/era-racing-blender.png', playable: false, preview3d: true },
 ]
 
 function GameCardArtwork({ game }) {
@@ -262,10 +262,10 @@ export default function MiniGameHub() {
           <button key={game.id} type="button" role="tab" aria-selected={selected === game.id} className={`portal-game-card ${game.color} ${game.id === 'frontier' ? 'portal-card-featured' : ''} ${selected === game.id ? 'active' : ''}`} onClick={() => chooseGame(game)}>
             <span className="portal-card-art">
               <GameCardArtwork game={game} />
-              <span className="portal-card-topline"><b>{game.preview3d ? 'DESTAQUE 3D' : 'JOGÁVEL'}</b><small>{String(index + 1).padStart(2, '0')}</small></span>
+              <span className="portal-card-topline"><b>{game.preview3d ? 'BLENDER 3D' : 'JOGÁVEL'}</b><small>{String(index + 1).padStart(2, '0')}</small></span>
               <span className="portal-card-play"><Play weight="fill" /></span>
             </span>
-            <span className="portal-card-meta"><span className="portal-card-copy"><small>{game.genre}</small><strong>{game.title}</strong></span><span className="portal-card-action">JOGAR <ArrowRight /></span></span>
+            <span className="portal-card-meta"><span className="portal-card-copy"><small>{game.genre}</small><strong>{game.title}</strong></span><span className="portal-card-action">{game.playable ? 'JOGAR' : 'VER PRÉVIA'} <ArrowRight /></span></span>
           </button>
         ))}
       </div>
