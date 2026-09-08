@@ -258,7 +258,7 @@ export default function MiniGameHub({ selected, onSelect, raceLive, onRaceLiveCh
       <div className="portal-heading"><div><span>ESCOLHA SEU PRÓXIMO JOGO</span><strong>Catálogo AI Game Arcade</strong></div><small>8 JOGÁVEIS · ERA RACING EM BETA</small></div>
       <div className="game-selector" role="tablist" aria-label="Catálogo de games">
         {games.map((game, index) => (
-          <button key={game.id} type="button" role="tab" aria-selected={selected === game.id} className={`portal-game-card ${game.color} ${game.id === 'frontier' ? 'portal-card-featured' : ''} ${selected === game.id ? 'active' : ''}`} onClick={() => chooseGame(game)}>
+          <button key={game.id} type="button" role="tab" aria-selected={selected === game.id} className={`portal-game-card ${game.color} ${game.id === 'frontier' ? 'portal-card-featured' : ''} ${selected === game.id ? 'active' : ''}`} onClick={() => chooseGame(game)} data-analytics-event="game_select" data-game-id={game.id}>
             <span className="portal-card-art">
               <GameCardArtwork game={game} />
               <span className="portal-card-topline"><b>{game.preview3d ? 'BLENDER 3D' : 'JOGÁVEL'}</b><small>{String(index + 1).padStart(2, '0')}</small></span>

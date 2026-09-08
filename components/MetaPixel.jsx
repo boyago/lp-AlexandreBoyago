@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { CONSENT_KEY, syncPixelConsent } from '../lib/meta-pixel.mjs'
+import { isPublicAnalyticsPage, observeSections, syncAnalyticsConsent, trackAnalytics } from '../lib/analytics.mjs'
 import styles from './MetaPixel.module.css'
 
 export default function MetaPixel() {
@@ -10,6 +11,7 @@ export default function MetaPixel() {
   const [consent, setConsent] = useState(null)
   const [open, setOpen] = useState(false)
   const lastPage = useRef(null)
+  const lastAnalyticsPage = useRef(null)
 
   useEffect(() => {
     function readChoice() {
@@ -26,7 +28,23 @@ export default function MetaPixel() {
   }, [])
 
   useEffect(() => {
-    lastPage.current = syncPixelConsent(window, document, consent, pathname, lastPage.current)
+    const effectiveConsent = isPublicAnalyticsPage(pathname) ? consent : 'rejected'
+    lastPage.current = syncPixelConsent(window, document, effectiveConsent, pathname, lastPage.current)
+    lastAnalyticsPage.current = syncAnalyticsConsent(window, document, effectiveConsent, pathname, lastAnalyticsPage.current)
+  }, [consent, pathname])
+
+  useEffect(() => {
+    if (consent !== 'accepted' || !isPublicAnalyticsPage(pathname)) return
+    const stopObserving = observeSections(window, document)
+    function clicked(event) {
+      const target = event.target.closest?.('[data-analytics-event]')
+      if (!target) return
+      trackAnalytics(window, target.dataset.analyticsEvent, {
+        button_id: target.dataset.buttonId || '', game_id: target.dataset.gameId || '',
+      })
+    }
+    document.addEventListener('click', clicked, true)
+    return () => { stopObserving(); document.removeEventListener('click', clicked, true) }
   }, [consent, pathname])
 
   function choose(value) {
@@ -35,10 +53,11 @@ export default function MetaPixel() {
     setOpen(false)
   }
 
+  if (!isPublicAnalyticsPage(pathname)) return null
   return open ? (
     <aside className={styles.notice} aria-label="Preferências de cookies">
       <strong>Você escolhe os cookies</strong>
-      <p>Com sua permissão, usamos o Meta Pixel para medir visitas e anúncios. A Meta recebe dados de navegação e pode usar cookies. Recusar não afeta seu acesso.</p>
+      <p>Com sua permissão, usamos Google Analytics e Meta Pixel para medir visitas, seções vistas, cliques e anúncios. Google e Meta recebem dados de navegação e podem usar cookies. Recusar não afeta seu acesso.</p>
       <div className={styles.actions}>
         <button type="button" onClick={() => choose('rejected')}>Recusar opcionais</button>
         <button type="button" onClick={() => choose('accepted')}>Aceitar opcionais</button>

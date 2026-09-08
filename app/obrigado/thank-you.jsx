@@ -43,7 +43,7 @@ export default function ThankYou({ groupUrl }) {
               <div className={styles.progressTrack} role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress} aria-label="Etapas para participar do grupo" aria-valuetext={`${progress} por cento. A etapa final é clicar para entrar no grupo.`}>
                 <span className={styles.progressFill} style={{ width: `${progress}%` }} />
               </div>
-              <a className={styles.join} href={groupUrl} rel="noopener noreferrer nofollow" referrerPolicy="no-referrer">ENTRAR NO GRUPO DA IMERSÃO <ArrowUpRight size={22} aria-hidden="true" /></a>
+              <a className={styles.join} href={groupUrl} rel="noopener noreferrer nofollow" referrerPolicy="no-referrer" data-analytics-event="whatsapp_click" data-button-id="thank-you-group">ENTRAR NO GRUPO DA IMERSÃO <ArrowUpRight size={22} aria-hidden="true" /></a>
               <p className={styles.manual}>Sem redirecionamento automático. Você entra quando quiser.</p>
             </>
           ) : (

@@ -28,7 +28,7 @@ export default function FrontierPreview({ live, onLiveChange }) {
         <span>BLENDER 3D · BETA JOGÁVEL</span>
         <h3>Era Racing</h3>
         <p>Fusca, pickup clássica, Porsche e Fórmula 1 na mesma pista. Escolha seu carro e dispute uma corrida contra a IA.</p>
-        <button type="button" className="cinematic-play" onClick={() => onLiveChange(true)}><Play weight="fill" /> JOGAR ERA RACING</button>
+        <button type="button" className="cinematic-play" onClick={() => onLiveChange(true)} data-analytics-event="game_open" data-game-id="frontier" data-button-id="catalog-racing"><Play weight="fill" /> JOGAR ERA RACING</button>
       </div>
     </div>
   )

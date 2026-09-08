@@ -70,7 +70,7 @@ function CheckoutLink({ className = '', children, onUnavailable, label }) {
   const handleClick = (event) => {
     if (!checkoutUrl) { event.preventDefault(); onUnavailable() }
   }
-  return <a className={className} href={checkoutUrl || '#oferta'} target={checkoutUrl ? '_blank' : undefined} onClick={handleClick} aria-label={label} rel={checkoutUrl ? 'noopener noreferrer' : undefined}>{children}</a>
+  return <a className={className} href={checkoutUrl || '#oferta'} target={checkoutUrl ? '_blank' : undefined} onClick={handleClick} aria-label={label} data-analytics-event={checkoutUrl ? 'checkout_click' : undefined} data-button-id={className.split(' ')[0]} rel={checkoutUrl ? 'noopener noreferrer' : undefined}>{children}</a>
 }
 
 function GamePreview({ onPlay }) {
@@ -82,7 +82,7 @@ function GamePreview({ onPlay }) {
   }
 
   return (
-    <a className="hero-visual hero-patrol-preview" href="#playground" onClick={goToPlayground} aria-label="Jogar Era Racing na página">
+    <a className="hero-visual hero-patrol-preview" href="#playground" onClick={goToPlayground} aria-label="Jogar Era Racing na página" data-analytics-event="game_open" data-game-id="frontier" data-button-id="hero-racing">
       <div className="game-preview-window">
         <div className="window-bar"><div className="window-dots"><i /><i /><i /></div><span>BLENDER 3D + IA</span><span className="online"><i /> BETA JOGÁVEL</span></div>
         <div className="hero-game-poster">
