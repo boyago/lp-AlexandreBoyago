@@ -2,7 +2,9 @@
 
 ## Coleta configurada
 
-GA4 `G-Y8G201NRV8`. A tag só é carregada após aceitar o aviso atualizado de cookies. A preferência agora usa `ai-game-lab-measurement-v2`; visitantes que aceitaram apenas o aviso anterior do Meta precisam escolher novamente.
+GA4 `G-KV848N4Y33`. Código do fluxo: `15743000412`. Confirmados pelo proprietário em 08/09/2026, substituindo o ID de medição anterior. O código do fluxo não é o ID numérico da propriedade exigido pela API de relatórios.
+
+A tag só é carregada após aceitar o aviso atualizado de cookies. A preferência agora usa `ai-game-lab-measurement-v2`; visitantes que aceitaram apenas o aviso anterior do Meta precisam escolher novamente.
 
 Rotas medidas: `/` e `/obrigado/`. `/analise/` não carrega tags por acesso direto. Navegar para ela interrompe a coleta configurada neste código. Os testes automatizados usam mocks; não confirmam recebimento de eventos no Google.
 
