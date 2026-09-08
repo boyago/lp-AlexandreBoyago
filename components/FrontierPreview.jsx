@@ -1,11 +1,10 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { Play, X } from '@phosphor-icons/react'
 
-export default function FrontierPreview() {
-  const [live, setLive] = useState(false)
+export default function FrontierPreview({ live, onLiveChange }) {
   const frame = useRef(null)
   useEffect(() => {
     if (!live || !frame.current) return
@@ -17,7 +16,7 @@ export default function FrontierPreview() {
   }, [live])
   if (live) return (
     <div className="race-embed-shell">
-      <div className="race-embed-toolbar"><span>ERA RACING · BETA WEB</span><button type="button" onClick={() => setLive(false)}><X /> FECHAR JOGO</button></div>
+      <div className="race-embed-toolbar"><span>ERA RACING · BETA WEB</span><button type="button" onClick={() => onLiveChange(false)}><X /> FECHAR JOGO</button></div>
       <div className="actual-game-embed"><iframe ref={frame} src="/games/era-racing/index.html?v=js-modules-2" title="Era Racing, corrida 3D com carros clássicos, esportivos e Fórmula 1" allow="fullscreen" /></div>
     </div>
   )
@@ -29,7 +28,7 @@ export default function FrontierPreview() {
         <span>BLENDER 3D · BETA JOGÁVEL</span>
         <h3>Era Racing</h3>
         <p>Fusca, pickup clássica, Porsche e Fórmula 1 na mesma pista. Escolha seu carro e dispute uma corrida contra a IA.</p>
-        <button type="button" className="cinematic-play" onClick={() => setLive(true)}><Play weight="fill" /> JOGAR ERA RACING</button>
+        <button type="button" className="cinematic-play" onClick={() => onLiveChange(true)}><Play weight="fill" /> JOGAR ERA RACING</button>
       </div>
     </div>
   )

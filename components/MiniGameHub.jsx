@@ -11,6 +11,7 @@ import JungleLeapGame from './JungleLeapGame'
 import { createRetroAudio } from './retroAudio'
 
 const games = [
+  { id: 'frontier', title: 'Era Racing', genre: 'Clássicos x Modernos x F1', icon: '🏁', color: 'cinematic', art: '/images/era-racing-blender.png', playable: true, preview3d: true },
   { id: 'patrol', title: 'Tupã Patrulha', genre: 'Mundo aberto', icon: '🚓', color: 'violet', art: '/images/tupa-patrulha-gameplay.png', playable: true },
   { id: 'orbit', title: 'Orbit Runner', genre: 'Arcade espacial', icon: '🚀', color: 'blue', playable: true },
   { id: 'prompt', title: 'Prompt Quest', genre: 'Memória', icon: '🧠', color: 'lime', playable: true },
@@ -18,7 +19,6 @@ const games = [
   { id: 'raid', title: 'Pixel Raid', genre: 'Defesa em ondas', icon: '👾', color: 'pink', playable: true },
   { id: 'river', title: 'Canyon Strike', genre: 'Estilo River Raid (Atari)', icon: '✈️', color: 'cyan', playable: true },
   { id: 'jungle', title: 'Jungle Leap', genre: 'Estilo Pitfall! (Atari)', icon: '🧭', color: 'gold', playable: true },
-  { id: 'frontier', title: 'Era Racing', genre: 'Clássicos x Modernos x F1', icon: '🏁', color: 'cinematic', art: '/images/era-racing-blender.png', playable: true, preview3d: true },
 ]
 
 function GameCardArtwork({ game }) {
@@ -238,11 +238,10 @@ function InvaderGame() {
   )
 }
 
-export default function MiniGameHub() {
-  const [selected, setSelected] = useState('patrol')
+export default function MiniGameHub({ selected, onSelect, raceLive, onRaceLiveChange }) {
   const stageRef = useRef(null)
   const current = games.find((game) => game.id === selected)
-  const chooseGame = (game) => { setSelected(game.id); window.requestAnimationFrame(() => stageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })) }
+  const chooseGame = (game) => { onRaceLiveChange(false); onSelect(game.id); window.requestAnimationFrame(() => stageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })) }
   return (
     <div className="game-hub">
       <div className="game-stage" ref={stageRef} role="tabpanel" aria-label={`${current.playable ? 'Jogar' : 'Ver prévia de'} ${current.title}`}>
@@ -254,7 +253,7 @@ export default function MiniGameHub() {
         {selected === 'raid' && <InvaderGame />}
         {selected === 'river' && <RiverRaidGame />}
         {selected === 'jungle' && <JungleLeapGame />}
-        {selected === 'frontier' && <FrontierPreview />}
+        {selected === 'frontier' && <FrontierPreview live={raceLive} onLiveChange={onRaceLiveChange} />}
       </div>
       <div className="portal-heading"><div><span>ESCOLHA SEU PRÓXIMO JOGO</span><strong>Catálogo AI Game Arcade</strong></div><small>8 JOGÁVEIS · ERA RACING EM BETA</small></div>
       <div className="game-selector" role="tablist" aria-label="Catálogo de games">

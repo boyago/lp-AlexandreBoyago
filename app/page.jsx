@@ -73,26 +73,27 @@ function CheckoutLink({ className = '', children, onUnavailable, label }) {
   return <a className={className} href={checkoutUrl || '#oferta'} target={checkoutUrl ? '_blank' : undefined} onClick={handleClick} aria-label={label} rel={checkoutUrl ? 'noopener noreferrer' : undefined}>{children}</a>
 }
 
-function GamePreview() {
+function GamePreview({ onPlay }) {
   const goToPlayground = (event) => {
     event.preventDefault()
+    onPlay()
     document.getElementById('playground')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     window.history.replaceState(null, '', '#playground')
   }
 
   return (
-    <a className="hero-visual hero-patrol-preview" href="#playground" onClick={goToPlayground} aria-label="Ir para a área jogável de Tupã Patrulha">
+    <a className="hero-visual hero-patrol-preview" href="#playground" onClick={goToPlayground} aria-label="Jogar Era Racing na página">
       <div className="game-preview-window">
-        <div className="window-bar"><div className="window-dots"><i /><i /><i /></div><span>GAME CRIADO COM IA</span><span className="online"><i /> DEMO REAL</span></div>
+        <div className="window-bar"><div className="window-dots"><i /><i /><i /></div><span>BLENDER 3D + IA</span><span className="online"><i /> BETA JOGÁVEL</span></div>
         <div className="hero-game-poster">
-          <Image src="/images/tupa-patrulha-gameplay.png" alt="Cena real do game Tupã Patrulha, com personagens, viatura, missão e mapa da cidade" fill sizes="(max-width: 1080px) 92vw, 48vw" preload />
+          <Image src="/images/era-racing-blender.png" alt="Era Racing: Fusca e Fórmula 1 alinhados na pista 3D criada no Blender" fill sizes="(max-width: 1080px) 92vw, 48vw" preload />
           <div className="hero-game-poster-shade" />
           <div className="hero-game-poster-copy">
-            <b><Play weight="fill" /> INICIAR PLANTÃO</b>
+            <b><Play weight="fill" /> JOGAR ERA RACING</b>
           </div>
         </div>
         <div className="preview-caption">
-          <div><span>DE UM PROMPT PARA UM MUNDO 3D</span><strong>Tupã · Patrulha</strong></div>
+          <div><span>CLÁSSICOS, ESPORTIVOS E F1 NA MESMA PISTA</span><strong>Era Racing</strong></div>
           <span className="preview-jump">JOGAR NA PÁGINA <ArrowRight weight="bold" /></span>
         </div>
       </div>
@@ -120,6 +121,8 @@ function FAQ() {
 export default function Home() {
   const [toast, setToast] = useState(false)
   const [daysLeft, setDaysLeft] = useState(null)
+  const [selectedGame, setSelectedGame] = useState('frontier')
+  const [raceLive, setRaceLive] = useState(false)
 
   useEffect(() => {
     const target = new Date('2026-09-26T00:00:00-03:00')
@@ -153,7 +156,7 @@ export default function Home() {
           </div>
           <div className="trust-row" aria-label="Destaques da imersão"><span><CheckCircle weight="fill" /> Demonstrações práticas</span><span><CheckCircle weight="fill" /> Construção ao vivo</span><span><CheckCircle weight="fill" /> Investimento único</span></div>
         </div>
-        <GamePreview />
+        <GamePreview onPlay={() => { setSelectedGame('frontier'); setRaceLive(true) }} />
       </section>
 
       <section className="proof-strip" aria-label="Experiência do especialista"><p><strong>26+ anos</strong> criando tecnologia</p><i /><p><strong>9.500+</strong> alunos</p><i /><p><strong>Uma imersão.</strong> Um projeto real no ar.</p></section>
@@ -192,7 +195,7 @@ export default function Home() {
       <section className="arcade-showcase" id="playground">
         <div className="section-shell">
           <div className="arcade-head"><div><span className="section-kicker light-kicker">// SEU PORTAL DE GAMES COM IA</span><h2>Oito ideias. <br /><span>Todas para jogar agora.</span></h2></div><p>Use os cards para trocar de experiência sem sair da página. Experimente também o Era Racing: uma corrida 3D com modelos criados no Blender, agora em versão beta para navegador.</p></div>
-          <MiniGameHub />
+          <MiniGameHub selected={selectedGame} onSelect={setSelectedGame} raceLive={raceLive} onRaceLiveChange={setRaceLive} />
         </div>
       </section>
 
