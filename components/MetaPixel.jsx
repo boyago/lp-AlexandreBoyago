@@ -6,6 +6,7 @@ import { CONSENT_KEY, syncPixelConsent } from '../lib/meta-pixel.mjs'
 import { isPublicAnalyticsPage, observeSections, syncAnalyticsConsent, trackAnalytics } from '../lib/analytics.mjs'
 import styles from './MetaPixel.module.css'
 import { startOwnMetrics, revokeOwnMetrics } from '../lib/metrics-client.mjs'
+import { COOKIE_PREFERENCES_EVENT, readConsentPreference, saveConsentPreference } from '../lib/cookie-consent.mjs'
 
 export default function MetaPixel() {
   const pathname = usePathname()
@@ -13,20 +14,30 @@ export default function MetaPixel() {
   const [open, setOpen] = useState(false)
   const lastPage = useRef(null)
   const lastAnalyticsPage = useRef(null)
+  const preferencesTrigger = useRef(null)
+  const notice = useRef(null)
 
   useEffect(() => {
     function readChoice() {
-      let choice = null
-      try { choice = localStorage.getItem(CONSENT_KEY) } catch {}
-      const known = choice === 'accepted' || choice === 'rejected'
-      setConsent(known ? choice : null)
-      setOpen(!known)
+      const saved = readConsentPreference(window)
+      setConsent(saved.consent)
+      setOpen(saved.showNotice)
     }
     readChoice()
     function sync(event) { if (event.key === CONSENT_KEY || event.key === null) readChoice() }
+    function reopen() { preferencesTrigger.current = document.activeElement; setOpen(true) }
     window.addEventListener('storage', sync)
-    return () => window.removeEventListener('storage', sync)
+    window.addEventListener(COOKIE_PREFERENCES_EVENT, reopen)
+    return () => {
+      window.removeEventListener('storage', sync)
+      window.removeEventListener(COOKIE_PREFERENCES_EVENT, reopen)
+    }
   }, [])
+
+  useEffect(() => {
+    // Only focus the notice when the visitor explicitly opens it from the footer.
+    if (open && preferencesTrigger.current) notice.current?.querySelector('button')?.focus({ preventScroll: true })
+  }, [open])
 
   useEffect(() => {
     const effectiveConsent = isPublicAnalyticsPage(pathname) ? consent : 'rejected'
@@ -50,24 +61,29 @@ export default function MetaPixel() {
     return () => { stopOwnMetrics(); stopObserving(); document.removeEventListener('click', clicked, true) }
   }, [consent, pathname])
 
-  function choose(value) {
-    if (value === 'rejected') { window.__aiGameLabAnalyticsAllowed = false; revokeOwnMetrics(window) }
-    try { localStorage.setItem(CONSENT_KEY, value) } catch {}
-    setConsent(value)
+  function closeNotice() {
     setOpen(false)
+    preferencesTrigger.current?.focus?.({ preventScroll: true })
+    preferencesTrigger.current = null
   }
 
-  if (!isPublicAnalyticsPage(pathname)) return null
-  return open ? (
-    <aside className={styles.notice} aria-label="Preferências de cookies">
+  function choose(value) {
+    if (value === 'rejected') { window.__aiGameLabAnalyticsAllowed = false; revokeOwnMetrics(window) }
+    saveConsentPreference(window, value)
+    setConsent(value)
+    closeNotice()
+  }
+
+  if (!isPublicAnalyticsPage(pathname) || !open) return null
+  return (
+    <aside ref={notice} id="cookie-preferences-panel" className={styles.notice} aria-label="Preferências de cookies">
       <strong>Você escolhe os cookies</strong>
       <p>Com sua permissão, usamos contadores próprios, Google Analytics e Meta Pixel para medir visitas, seções vistas, cliques e anúncios. Nosso contador usa cookies, sem nome, e-mail ou IP no banco de métricas. Google e Meta recebem dados de navegação e podem usar cookies. Recusar não afeta seu acesso.</p>
       <div className={styles.actions}>
         <button type="button" onClick={() => choose('rejected')}>Recusar opcionais</button>
         <button type="button" onClick={() => choose('accepted')}>Aceitar opcionais</button>
       </div>
+      {consent !== null && <button className={styles.close} type="button" onClick={closeNotice}>Fechar sem alterar</button>}
     </aside>
-  ) : (
-    <button className={styles.preferences} type="button" onClick={() => setOpen(true)}>Cookies</button>
   )
 }

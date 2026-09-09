@@ -21,6 +21,7 @@
 .access p.manual { margin: 14px 0 0; font-size: 14px; color: #9caa8e; }
 .note { margin: 22px auto 0; max-width: 600px; color: #92929f; font-size: 14px; line-height: 1.65; }
 .back { display: block; width: fit-content; margin: 30px auto 0; padding: 8px; color: #c1c1c9; font-size: 14px; text-decoration: underline; text-underline-offset: 5px; }
+.footer { background: transparent; border: 0; text-align: center; }
 .page a:focus-visible, .page button:focus-visible { outline: 3px solid var(--lime); outline-offset: 5px; }
 @media (max-width: 480px) { .page { padding: 24px 18px 100px; } .brand { margin-bottom: 28px; } .intro { font-size: 16px; } .access { padding: 24px 18px; } .access h2 { font-size: 22px; } .kicker { font-size: 12px; letter-spacing: .07em; } }
 @media (prefers-reduced-motion: reduce) { .progressFill { transition: none; } }

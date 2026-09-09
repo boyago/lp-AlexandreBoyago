@@ -4,6 +4,8 @@
 .actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .actions button { flex: 1; min-height: 44px; padding: 10px 14px; border: 1px solid #86868f; border-radius: 8px; color: #fff; background: #202027; font: 600 14px/1.4 'DM Sans', sans-serif; cursor: pointer; }
 .actions button:last-child { color: #070709; background: var(--lime); border-color: var(--lime); }
-.preferences { position: fixed; z-index: 140; left: 16px; bottom: 12px; min-height: 36px; padding: 8px 12px; border: 1px solid #ffffff40; border-radius: 8px; background: #111116; color: #ccc; font: 500 12px/1.4 'DM Sans', sans-serif; cursor: pointer; }
-.actions button:focus-visible, .preferences:focus-visible { outline: 3px solid var(--lime); outline-offset: 4px; }
-@media (max-width: 640px) { .notice { bottom: 96px; left: 12px; width: calc(100% - 24px); padding: 18px; max-height: calc(100dvh - 120px); overflow: auto; } .preferences { bottom: 90px; } }
+.preferences { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 0; border: 0; background: transparent; color: #aaaab5; font: 500 .875rem/1.4 'DM Sans', sans-serif; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.preferences:hover { color: #fff; }
+.close { display: block; margin: 10px 0 0 auto; min-height: 44px; border: 0; padding: 8px 0 0 12px; background: transparent; color: #ccc; font: 500 .875rem/1.4 'DM Sans', sans-serif; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.actions button:focus-visible, .preferences:focus-visible, .close:focus-visible { outline: 3px solid var(--lime); outline-offset: 4px; }
+@media (max-width: 640px) { .notice { bottom: 96px; left: 12px; width: calc(100% - 24px); padding: 18px; max-height: calc(100dvh - 120px); overflow: auto; } }

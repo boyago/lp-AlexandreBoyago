@@ -15,7 +15,6 @@ import {
   Lightning,
   Play,
   RocketLaunch,
-  Sparkle,
   Stack,
   Timer,
   Trophy,
@@ -24,6 +23,8 @@ import {
 } from '@phosphor-icons/react'
 import alexandrePhoto from '../assets/alexandre.png'
 import MiniGameHub from '../components/MiniGameHub'
+import CookiePreferencesButton from '../components/CookiePreferencesButton'
+import { courseAgenda as agenda, courseFaq as faqItems, courseFaqSchema as faqSchema } from '../lib/course-content.mjs'
 
 const checkoutUrl = process.env.NEXT_PUBLIC_CHECKOUT_URL || 'https://wizmarket.com.br/checkout/ai-game-lab?offer=imersao-lore1'
 
@@ -34,21 +35,7 @@ const outcomes = [
   { icon: GlobeHemisphereWest, number: '04', title: 'Colocar o projeto no ar', body: 'Organize a aplicação e entenda o caminho de publicação para transformar o experimento em um endereço acessível de verdade.' },
 ]
 
-const agenda = [
-  { tag: 'BLOCO 01', icon: Sparkle, title: 'GPT 6 sem achismo', description: 'Um tour orientado pelas novidades e um método para transformar intenção em execução, com contexto, prompts e iteração.', bullets: ['O que mudou e o que isso destrava', 'Prompts que viram especificações úteis', 'Código, revisão e correção com IA'], className: 'agenda-gpt' },
-  { tag: 'BLOCO 02', icon: GameController, title: 'Fable 5.1 game-first', description: 'Explore o modelo dentro de um fluxo prático de criação de games, refinando conceito, regras, visual e jogabilidade.', bullets: ['Da ideia para uma mecânica clara', 'Criação e evolução em ciclos rápidos', 'Como cruzar Fable 5.1 e GPT 6'], className: 'agenda-fable' },
-  { tag: 'BLOCO 03', icon: RocketLaunch, title: 'Seu AI Game Arcade', description: 'Feche a imersão reunindo os games em uma página rápida, responsiva e visual, preparada para crescer com novos títulos.', bullets: ['Grid de games e experiência de navegação', 'Cards, categorias e páginas jogáveis', 'Estrutura para hospedagem e publicação'], className: 'agenda-arcade' },
-]
-
-const faqItems = [
-  { q: 'Quando acontece a imersão?', a: 'No dia 26 de setembro de 2026, online e ao vivo, com início às 08h, no horário de Brasília.' },
-  { q: 'Preciso saber programar?', a: 'Você não precisa ser especialista. A construção será guiada passo a passo. Quem já tem alguma familiaridade com lógica ou desenvolvimento tende a avançar mais rápido, mas o foco é mostrar o fluxo completo com IA.' },
-  { q: 'O que eu vou construir?', a: 'Você acompanhará a criação de um game jogável e de um portal visual para organizar e hospedar games criados com IA, do conceito à publicação.' },
-  { q: 'Preciso assinar outras ferramentas?', a: 'O primeiro lote da imersão custa R$ 49. Eventuais planos pagos ou créditos de ferramentas de terceiros não estão incluídos; durante a aula, Alexandre indicará as opções usadas e possíveis alternativas.' },
-  { q: 'A aula ficará gravada?', a: 'Sim. Quem adquirir a imersão poderá assistir à gravação durante 3 meses.' },
-  { q: 'Os arquivos dos projetos estão incluídos?', a: 'Não. A inscrição inclui a imersão ao vivo e o acesso à gravação por 3 meses. Os arquivos dos projetos serão oferecidos separadamente como item opcional no checkout.' },
-  { q: 'Como recebo o acesso?', a: 'Após a confirmação da compra, as instruções de acesso serão enviadas pelos canais informados no checkout.' },
-]
+const agendaIcons = { Code, Brain, GameController, Stack, Lightning, GlobeHemisphereWest }
 
 const eventSchema = {
   '@context': 'https://schema.org', '@type': 'EducationEvent',
@@ -59,11 +46,6 @@ const eventSchema = {
   location: { '@type': 'VirtualLocation' }, organizer: { '@type': 'Person', name: 'Alexandre Boyago' },
   performer: { '@type': 'Person', name: 'Alexandre Boyago' },
   offers: { '@type': 'Offer', price: '49.00', priceCurrency: 'BRL', availability: 'https://schema.org/InStock', validFrom: '2026-09-06' },
-}
-
-const faqSchema = {
-  '@context': 'https://schema.org', '@type': 'FAQPage',
-  mainEntity: faqItems.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })),
 }
 
 function CheckoutLink({ className = '', children, onUnavailable, label }) {
@@ -140,7 +122,7 @@ export default function Home() {
 
       <header className="topbar">
         <a className="brand" href="#inicio" aria-label="Ir para o início"><span className="brand-mark">AB</span><span>AI GAME LAB</span></a>
-        <nav className="desktop-nav" aria-label="Navegação principal"><a href="#imersao">A imersão</a><a href="#conteudo">Conteúdo</a><a href="#mentor">Mentor</a><a href="#faq">FAQ</a></nav>
+        <nav className="desktop-nav" aria-label="Navegação principal"><a href="#imersao">A imersão</a><a href="#conteudo">Grade da imersão</a><a href="#mentor">Mentor</a><a href="#faq">FAQ</a></nav>
         <div className="topbar-meta"><span><CalendarBlank weight="fill" /> 26 SET · 08H · AO VIVO</span><CheckoutLink className="mini-cta" onUnavailable={showCheckoutNotice} label="Garantir vaga na imersão">GARANTIR VAGA <ArrowRight /></CheckoutLink></div>
       </header>
 
@@ -183,12 +165,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="curriculum section-light" id="conteudo">
+      <section className="curriculum section-light" id="conteudo" aria-labelledby="curriculum-title">
         <div className="section-shell">
-          <div className="section-intro curriculum-head dark-intro"><div><span className="section-kicker">// ROTEIRO DA IMERSÃO</span><h2>Três blocos. <br /><em>Uma experiência prática.</em></h2></div><p>Sem maratona de teoria. O conteúdo avança na mesma ordem em que um produto é construído.</p></div>
-          <div className="agenda-grid">
-            {agenda.map((block) => { const Icon = block.icon; return <article className={`agenda-card ${block.className}`} key={block.tag}><div className="agenda-tag"><span>{block.tag}</span><Icon weight="duotone" /></div><h3>{block.title}</h3><p>{block.description}</p><ul>{block.bullets.map((bullet) => <li key={bullet}><Check weight="bold" /> {bullet}</li>)}</ul></article> })}
+          <div className="section-intro curriculum-head dark-intro"><div><span className="section-kicker">// GRADE DA IMERSÃO</span><h2 id="curriculum-title">Seis etapas. <br /><em>Do ambiente ao game no ar.</em></h2></div><p>Prepare as ferramentas, crie protótipos 2D e 3D, ajuste a jogabilidade e reúna suas criações em um portal. Você acompanha o processo, do primeiro prompt à publicação.</p></div>
+          <div className="curriculum-meta"><span><CalendarBlank weight="duotone" /> 26/09/2026 · A partir das 08h de Brasília</span><span><Play weight="fill" /> Online e ao vivo</span><span><Timer weight="duotone" /> Gravação por 3 meses</span></div>
+          <div className="agenda-grid" aria-label="Seis blocos da grade da imersão">
+            {agenda.map((block) => {
+              const Icon = agendaIcons[block.icon]
+              return <article className={`agenda-card ${block.className}`} key={block.tag}>
+                <div className="agenda-tag"><span>{block.tag}</span><Icon weight="duotone" aria-hidden="true" /></div>
+                <h3>{block.title}</h3><p>{block.description}</p>
+                <ul>{block.bullets.map((bullet) => <li key={bullet}><Check weight="bold" aria-hidden="true" /> {bullet}</li>)}</ul>
+                <div className="agenda-outcome"><span>NA PRÁTICA</span><p>{block.outcome}</p></div>
+              </article>
+            })}
           </div>
+          <div className="curriculum-scope"><strong>O que você acompanha</strong><p>Projetos guiados, variações de mecânica e demonstrações para navegador. Os ajustes de movimento usam lógica simplificada de jogo; multiplayer e telemetria avançada não estão incluídos no conteúdo garantido.</p><p>A inscrição inclui a aula e a gravação por 3 meses. O pacote de arquivos completos dos projetos é um adicional opcional no checkout.</p><a href="#faq">Confira ferramentas, acessos e materiais <ArrowRight weight="bold" /></a></div>
         </div>
       </section>
 
@@ -246,7 +238,7 @@ export default function Home() {
 
       <section className="final-cta"><div className="final-glow" /><div className="section-shell final-shell"><GameController weight="duotone" /><span className="section-kicker light-kicker">26 DE SETEMBRO · 08H · ONLINE E AO VIVO</span><h2>Seu próximo game não <br />precisa ficar no prompt.</h2><p>Venha criar, testar e publicar com GPT 6 e Fable 5.1.</p><CheckoutLink className="primary-cta final-button" onUnavailable={showCheckoutNotice} label="Quero criar meu game com inteligência artificial"><Trophy weight="fill" /> QUERO CRIAR MEU GAME <ArrowRight weight="bold" /></CheckoutLink></div></section>
 
-      <footer><div className="footer-shell"><a className="brand footer-brand" href="#inicio"><span className="brand-mark">AB</span><span>AI GAME LAB</span></a><p>Imersão GPT 6 + Fable 5.1 <br />com Alexandre Boyago.</p><nav aria-label="Navegação do rodapé"><a href="#imersao">A imersão</a><a href="#conteudo">Conteúdo</a><a href="#mentor">Mentor</a><a href="#faq">FAQ</a></nav><span>© 2026 Alexandre Boyago</span></div></footer>
+      <footer><div className="footer-shell"><a className="brand footer-brand" href="#inicio"><span className="brand-mark">AB</span><span>AI GAME LAB</span></a><p>Imersão GPT 6 + Fable 5.1 <br />com Alexandre Boyago.</p><nav aria-label="Navegação do rodapé"><a href="#imersao">A imersão</a><a href="#conteudo">Grade da imersão</a><a href="#mentor">Mentor</a><a href="#faq">FAQ</a></nav><span className="footer-legal"><span>© 2026 Alexandre Boyago</span><CookiePreferencesButton /></span></div></footer>
 
       <div className={`checkout-toast ${toast ? 'show' : ''}`} role="status" aria-live="polite"><div><strong>Inscrições quase abertas.</strong><span>O link do checkout será conectado aqui em seguida.</span></div><button type="button" onClick={() => setToast(false)} aria-label="Fechar aviso"><X weight="bold" /></button></div>
       <div className="mobile-buy-bar"><div><span>1º LOTE · QUASE ESGOTADO</span><strong>R$ 49</strong></div><CheckoutLink onUnavailable={showCheckoutNotice} label="Garantir vaga na imersão">GARANTIR VAGA <ArrowRight weight="bold" /></CheckoutLink></div>

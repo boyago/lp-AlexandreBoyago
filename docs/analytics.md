@@ -67,7 +67,7 @@ Períodos móveis: 24 horas, 7, 30 ou 90 dias. Até 50 mil eventos por consulta,
 
 ## Privacidade e segurança implementadas
 
-- Aceite explícito antes da coleta própria, GA4 ou Meta. Aviso atualizado para `ai-game-lab-measurement-v3` exige nova escolha. Recusa não bloqueia jogos/conteúdo.
+- Aceite explícito antes da coleta própria, GA4 ou Meta. Preferência `ai-game-lab-measurement-v3` preservada: depois de aceitar ou recusar, o aviso fica fechado nas próximas visitas ao mesmo navegador/origem. Preferências podem ser reabertas manualmente pelo rodapé, sem botão flutuante. Recusa não bloqueia jogos/conteúdo. Limpar dados ou bloquear armazenamento pode exigir nova escolha; avisos de escopo anterior não são tratados automaticamente como aceite do escopo v3.
 - Cookies próprios HttpOnly: visitante 30 dias, sessão 30 minutos, administrador 8 horas. Secure em produção e SameSite Strict. Ao revogar, param os novos eventos e são removidos os cookies de medição próprios. Eventos históricos não são apagados automaticamente pela revogação.
 - O banco não recebe nome, e-mail, texto livre de formulário, URL completa, parâmetros de campanha ou IP bruto. IDs pseudônimos assinados e derivados com HMAC. Logs de infraestrutura e dados enviados a Google/Meta são independentes dessa base.
 - Senha com hash scrypt e salt. Não há senha padrão. Trocar o hash/segredo invalida sessões de administração.

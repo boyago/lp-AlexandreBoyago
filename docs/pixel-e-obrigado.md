@@ -3,7 +3,8 @@
 ## Pixel na LP
 
 - ID: `1138958273839648`.
-- Evento: `PageView`, somente após aceitar cookies opcionais. O botão Cookies permite mudar a escolha.
+- Evento: `PageView`, somente após aceitar cookies opcionais. O link Preferências de cookies no rodapé permite mudar a escolha, tanto na LP quanto em /obrigado/.
+- Após aceitar ou recusar, o aviso desaparece e não há botão flutuante. A preferência v3 continua salva no localStorage do mesmo navegador e origem. Limpar dados, usar outro navegador/domínio ou bloquear o armazenamento pode exigir nova escolha.
 - Não há imagem `noscript` do Pixel: ela enviaria dados sem a escolha de consentimento.
 - A coleta automática de eventos está desligada neste código. Nenhum email, telefone ou dado de pedido é enviado explicitamente.
 - Não disparamos `Purchase` pela simples abertura de `/obrigado/`. A página é pública e não valida pagamentos.

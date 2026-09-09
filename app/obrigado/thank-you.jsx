@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { ArrowUpRight, WhatsappLogo, Check } from '@phosphor-icons/react'
 import { INVITE_PROGRESS_LIMIT, inviteProgressAt } from '../../lib/whatsapp.mjs'
 import styles from './thank-you.module.css'
+import CookiePreferencesButton from '../../components/CookiePreferencesButton'
 
 export default function ThankYou({ groupUrl }) {
   const [progress, setProgress] = useState(0)
@@ -52,7 +53,7 @@ export default function ThankYou({ groupUrl }) {
         </div>
         <p className={styles.note}>A confirmação do pagamento e o acesso à gravação são enviados pela Wizmarket. Confira seu e-mail, inclusive a caixa de spam. Ao entrar no grupo, seu número poderá ficar visível aos demais participantes.</p>
       </section>
-      <a className={styles.back} href="/">Voltar para a página da imersão</a>
+      <footer className={styles.footer}><a className={styles.back} href="/">Voltar para a página da imersão</a><CookiePreferencesButton /></footer>
     </main>
   )
 }
