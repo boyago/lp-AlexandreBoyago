@@ -1,6 +1,6 @@
 # Imersão GPT 6 + Fable 5.1
 
-Landing page de vendas da imersão ao vivo de Alexandre Boyago, construída com Next.js e exportação estática otimizada.
+Landing page de vendas da imersão ao vivo de Alexandre Boyago, construída com Next.js. A LP é pré-renderizada; o painel de métricas próprio exige servidor Node.js e MySQL.
 
 ## Rodar localmente
 
@@ -23,8 +23,9 @@ NEXT_PUBLIC_CHECKOUT_URL=https://wizmarket.com.br/checkout/ai-game-lab?offer=ime
 ## Publicar na Hostinger
 
 1. Configure Node.js 20.9 ou superior.
-2. Use `npm install` para instalar as dependências.
+2. Use `npm ci` para instalar as dependências.
 3. Use `npm run build` como comando de build.
-4. Publique o conteúdo da pasta `out` como raiz do site.
+4. Mantenha a aplicação Next.js ativa com `npm start`. Não publique apenas a antiga pasta `out`.
+5. Antes de implantar esta versão, configure MySQL e as credenciais privadas do painel conforme [docs/analytics.md](docs/analytics.md).
 
-O build gera HTML estático, CSS, JavaScript, `robots.txt`, `sitemap.xml` e a imagem social em `out/`.
+O build usa `.next/`. As rotas `/api/metrics/*` precisam do runtime Node.js. O banco permanece separado das implantações. Sem configurá-lo, a LP continua acessível, mas o contador e o painel ficam indisponíveis.

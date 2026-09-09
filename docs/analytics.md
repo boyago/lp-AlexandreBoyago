@@ -1,51 +1,95 @@
-# Análise de métricas
+# Painel próprio de métricas
 
-## Coleta configurada
+## O que mudou
 
-GA4 `G-KV848N4Y33`. Código do fluxo: `15743000412`. Confirmados pelo proprietário em 08/09/2026, substituindo o ID de medição anterior. O código do fluxo não é o ID numérico da propriedade exigido pela API de relatórios.
+`/analise/` agora consulta um contador centralizado do próprio site, protegido por senha. Não depende de acesso aos relatórios Google. Não há contadores em localStorage nem dados simulados no painel.
 
-A tag só é carregada após aceitar o aviso atualizado de cookies. A preferência agora usa `ai-game-lab-measurement-v2`; visitantes que aceitaram apenas o aviso anterior do Meta precisam escolher novamente.
+**Mudança de hospedagem:** saiu `output: 'export'`. A LP e os jogos continuam no projeto, mas as APIs precisam de Next.js rodando em Node.js. Não publique apenas a antiga pasta `out/`. O banco MySQL fica fora da pasta de implantação e mantém os dados entre deploys.
 
-Rotas medidas: `/` e `/obrigado/`. `/analise/` não carrega tags por acesso direto. Navegar para ela interrompe a coleta configurada neste código. Os testes automatizados usam mocks; não confirmam recebimento de eventos no Google.
+GA4 continua em paralelo: `G-KV848N4Y33`, fluxo `15743000412`. O painel não lê GA4/Meta automaticamente. O link “Comparar no GA4” abre o Google para comparação manual.
 
-Eventos personalizados:
+## Ativar na Hostinger, antes de publicar
 
-| Evento | Parâmetros | Significado |
-| --- | --- | --- |
-| `section_view` | `section_id`, `section_name` | Seção visível por 2 segundos contínuos; uma vez por permanência na rota após consentimento. Para seções grandes, metade da altura da tela precisa estar ocupada. |
-| `game_select` | `game_id` | Clique em um card, não partida iniciada. |
-| `game_open` | `game_id`, `button_id` | Clique para abrir Era Racing pelo hero ou catálogo, não corrida iniciada. |
-| `checkout_click` | `button_id` | Clique para Wizmarket, não pagamento aprovado. |
-| `whatsapp_click` | `button_id` | Clique no convite, não entrada confirmada no grupo. |
+1. Em Websites → Dashboard → Databases → Management, crie um banco MySQL e um usuário exclusivos. Guarde a senha no gerenciador de senhas.
+2. Abra o phpMyAdmin desse banco e execute `db/analytics.sql`. Cria apenas `metrics_events` e `metrics_limits`, sem apagar tabelas existentes. A aplicação não faz migração de esquema automaticamente.
+3. No terminal local, execute `node tools/metrics-credentials.mjs`. Digite uma senha forte, sem eco na tela. Copie as variáveis geradas para o ambiente privado no hPanel. Não envie a senha ou chaves pelo chat, Git ou frontend.
+4. Configure as variáveis abaixo em Environment variables da aplicação Node.js. Consulte `.env.example`:
+   - `ANALYTICS_STORAGE=mysql`
+   - `ANALYTICS_SITE_ORIGIN=https://alexandreboyago.com` (origem exata usada no navegador; redirecione www para o domínio canônico)
+   - `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`
+   - `ANALYTICS_SESSION_SECRET` e `ANALYTICS_ADMIN_PASSWORD_HASH` gerados no passo anterior
+5. Use aplicação **Next.js / Node.js**, Node >= 20.9. Instalação `npm ci`, build `npm run build`, início `npm start`. Mantenha a detecção Next.js padrão da Hostinger e não force diretório de saída `out`. Se o hPanel ainda estiver em hospedagem estática, ajuste o tipo de aplicação antes do deploy.
+6. Após configurar o banco e o runtime, publique o código e reinicie/reimplante. Não foi feita publicação automática desta migração.
+7. Exclua `/analise/*` e `/api/metrics/*` de qualquer cache/CDN que sobrescreva cabeçalhos. Remova o cache da versão antiga do painel. APIs usam no-store e dados exigem autenticação no servidor.
+8. Abra `https://alexandreboyago.com/analise/` e entre com a senha escolhida.
 
-`page_view` é enviado explicitamente uma vez por rota. No fluxo de dados do GA4, confira Medição otimizada > Visualizações de página e desative a opção baseada em alterações no histórico para não duplicar visualizações nesta SPA. Eventos automáticos extras, como scroll, podem existir no GA4 conforme as configurações da propriedade.
+Sem banco/configuração válidos, o painel informa indisponibilidade; não mostra números inventados. Um build aprovado não confirma conexão com seu MySQL. Faça backup do banco pelo provedor.
 
-Cadastre dimensões personalizadas de escopo Evento para `section_id`, `section_name`, `game_id` e `button_id` antes de montar os relatórios. IDs de game: `frontier` (Era Racing), `patrol` (Tupã Patrulha), `orbit`, `prompt`, `turbo`, `raid`, `river`, `jungle`.
+## Testar no computador
 
-Os eventos não enviam dados de formulário. O contexto de URL enviado pelo código exclui fragmentos e parâmetros desconhecidos, preservando apenas UTMs e gclid para atribuição. Não inclua informações pessoais em UTMs. A personalização de anúncios e Google Signals não são habilitados por este código.
+Crie/complete `.env.local` (não versionado), preservando as variáveis existentes:
 
-## Página `/analise/`
+```dotenv
+ANALYTICS_STORAGE=file
+ANALYTICS_SITE_ORIGIN=http://localhost:3000
+ANALYTICS_SESSION_SECRET=valor-gerado-no-terminal
+ANALYTICS_ADMIN_PASSWORD_HASH=hash-gerado-no-terminal
+```
 
-A estrutura da página e as instruções estão prontas; a leitura de métricas ainda depende de conectar o relatório. Não há números simulados nem contador em localStorage. O ID `G-...` permite coleta, não leitura de dados.
+Execute o gerador de credenciais acima e substitua os dois valores. Reinicie `npm run dev`. Acesse `http://localhost:3000/analise/`. Arquivo centralizado de desenvolvimento: `.local/analytics/events.json`, excluído do Git. **Modo file é recusado em produção**, onde múltiplos processos e reimplantações exigem MySQL.
 
-Opção preparada para manter a hospedagem estática: incorporar relatório Google com compartilhamento restrito. Para ativar:
+Testes:
 
-1. Crie um relatório no Looker/Data Studio conectado à propriedade GA4 correta. Configure visitas, sessões, origem/dispositivo, `section_view` por seção, `game_select` por game e cliques por botão. Inclua controle de datas. Evite somar usuários distintos entre grupos como se fossem pessoas únicas.
-2. Compartilhe somente com a conta Google do proprietário ou usuários autorizados. Não habilite acesso público nem “qualquer pessoa com o link”.
-3. Habilite a incorporação e copie a URL própria de embed (não o link de edição).
-4. Configure `ANALYTICS_REPORT_EMBED_URL` e `ANALYTICS_PRIVATE_REPORT_CONFIRMED=true` na Hostinger e reconstrua/reimplante. A URL não é uma senha; o controle de acesso é feito pelo Google.
-5. Teste com a conta autorizada e sem login para verificar que terceiros não conseguem ver os dados. Restrições de cookies de terceiros podem exigir abrir o relatório diretamente no Google.
+```text
+node --test tools/analytics.test.mjs tools/marketing.test.mjs tools/metrics.test.mjs
+node tools/metrics-http-test.mjs
+npm run build
+```
 
-Alternativa ainda não implementada: painel próprio usando Google Analytics Data API. Isso exige ID numérico da propriedade (não `G-...`), credencial/OAuth no servidor e autenticação de administrador. Não guardar chaves de serviço em `NEXT_PUBLIC_*`, no Git ou no frontend. Essa alternativa requer sair da exportação puramente estática ou adicionar um backend protegido.
+O teste HTTP sobe um servidor isolado na porta 4327 e encerra apenas esse processo. Usa `.next-metrics-test/` e `.local/analytics-test/`; não altera o banco normal. Testa login, acesso negado, coleta, deduplicação, persistência lida por outro processo, headers privados e logout. Não valida o MySQL da Hostinger.
 
-`/analise/` usa noindex/nofollow e não aparece no sitemap/menu. Isso não torna seu HTML privado. Enquanto não há fonte configurada, só exibe informações da integração. Segurança dos relatórios depende do compartilhamento no Google. Não habilitar embed de relatório público com dados comerciais.
+## Indicadores e interpretação
 
-## Validação após publicar
+| Indicador | Regra |
+| --- | --- |
+| Visitantes estimados | Identificadores de navegador distintos nos eventos do período; não pessoas identificadas. |
+| Sessões | Cookie de sessão, renovado por 30 minutos a cada envio. |
+| Visualizações | `page_view` nas rotas / e /obrigado/. |
+| Seções | `section_view`: metade da seção ou da altura da tela visível por 2 segundos contínuos. Alcance deduplicado por sessão. |
+| Rolagem | `scroll_depth`: parte inferior da tela alcançou 25%, 50%, 75%, 90% ou 100% da página. Exclusivo do contador próprio; não equivale ao scroll automático do GA4. |
+| Games | `game_select`: card clicado. `game_open`: abrir Era Racing, hero ou catálogo. Não são partidas iniciadas/concluídas. |
+| Checkout | `checkout_click`: cliques totais e sessões da LP com clique. Não confirma venda. |
+| Obrigado / grupo | Visita à página e `whatsapp_click` no convite. Não confirma pagamento nem ingresso no grupo. |
 
-Aceite cookies no domínio publicado e confira page_view, visualizações de seções e cliques no relatório Em tempo real do GA4. Repita recusando cookies e confirme ausência de novos eventos. Para DebugView, use as ferramentas de depuração do Google; não foi habilitado modo de depuração global. Contagens variam com consentimento, bloqueadores, dispositivos, sessões e processamento. Não há recuperação retroativa das visitas anteriores à instalação. Para vendas, use os eventos de compra confirmada da Wizmarket e configure a integração da plataforma separadamente.
+Percentuais de alcance usam as sessões com page_view da LP no mesmo período. Eventos de sessões iniciadas antes do período podem aparecer nos totais de cliques, mas não nesse percentual. Seções não formam necessariamente um funil sequencial: a pessoa pode usar âncoras e pular áreas.
 
-Referências oficiais:
+Períodos móveis: 24 horas, 7, 30 ou 90 dias. Até 50 mil eventos por consulta, sem truncamento silencioso; use período menor se exceder. O painel informa data/hora da consulta no fuso do navegador. A coleta não recupera visitas anteriores à ativação.
 
-- https://developers.google.com/analytics/devguides/collection/ga4/events
-- https://docs.cloud.google.com/data-studio/embed-a-report
-- https://developers.google.com/analytics/devguides/reporting/data/v1/quickstart
+## Privacidade e segurança implementadas
+
+- Aceite explícito antes da coleta própria, GA4 ou Meta. Aviso atualizado para `ai-game-lab-measurement-v3` exige nova escolha. Recusa não bloqueia jogos/conteúdo.
+- Cookies próprios HttpOnly: visitante 30 dias, sessão 30 minutos, administrador 8 horas. Secure em produção e SameSite Strict. Ao revogar, param os novos eventos e são removidos os cookies de medição próprios. Eventos históricos não são apagados automaticamente pela revogação.
+- O banco não recebe nome, e-mail, texto livre de formulário, URL completa, parâmetros de campanha ou IP bruto. IDs pseudônimos assinados e derivados com HMAC. Logs de infraestrutura e dados enviados a Google/Meta são independentes dessa base.
+- Senha com hash scrypt e salt. Não há senha padrão. Trocar o hash/segredo invalida sessões de administração.
+- Validação de origem nas escritas; JSON até 16 KB, até 20 eventos, nomes e campos permitidos; SQL preparado; idempotência por ID de evento.
+- Limite compartilhado no banco: 120 requisições/minuto por hash de IP para coleta, 10 tentativas de login/10 minutos por hash e 100 globais/10 minutos. Verifique se o proxy da hospedagem substitui x-forwarded-for corretamente. Isso reduz abuso, mas não garante eliminação de bots ou eventos forjados.
+- /analise/ e APIs com noindex, no-store e bloqueio de iframe. Autenticação está na API, não apenas no frontend. Página fora do sitemap.
+- Relatórios consultam no máximo 90 dias. A coleta limpa eventos mais antigos em lotes de até 1000 por requisição. Sem tráfego, registros antigos podem permanecer; para prazo rígido de exclusão, agende manutenção no banco e alinhe retenção de backups no provedor. Não foi criado agendamento nesta implementação.
+- GA4/Meta, bloqueadores, recusas, abas/dispositivos e definição de sessão geram diferenças. Não espere números idênticos entre ferramentas; o contador não mede “cliques no pixel”.
+- Para usuários e permissões individuais, 2FA ou auditoria avançada, substituir a senha única por um provedor de autenticação.
+
+## Conferência depois do deploy
+
+1. Sem login, GET /api/metrics/report/ deve responder 401, nunca dados.
+2. Na LP, recuse cookies: não deve haver POST de eventos. Aceite e veja se as respostas de /api/metrics/events/ são 200.
+3. Veja uma seção por 2 segundos, role a página, clique em um game e no checkout; atualize o painel.
+4. Revogue consentimento e confirme ausência de novos POSTs; logout impede consultar dados.
+5. No GA4, confira eventos em Tempo real separadamente. Dimensões personalizadas: section_id, section_name, game_id, button_id. Desative page_view automático baseado em mudanças de histórico se duplicar o envio manual.
+6. Uma compra só deve ser contada a partir de confirmação da Wizmarket, não por acesso ao obrigado.
+
+## Fontes oficiais
+
+- [Tráfego no hPanel](https://www.hostinger.com/support/5650167-how-to-use-the-analytics-section-on-hpanel-at-hostinger/)
+- [MySQL em aplicações Node.js na Hostinger](https://www.hostinger.com/support/connecting-a-hostinger-mysql-database-to-a-node-js-application/)
+- [mysql2](https://sidorares.github.io/node-mysql2/docs)
+- [Eventos GA4](https://developers.google.com/analytics/devguides/collection/ga4/events)

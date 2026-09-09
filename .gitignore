@@ -1,6 +1,8 @@
 node_modules/
 .next/
+.next-metrics-test/
 out/
+.local/
 .env*
 !.env.example
 npm-debug.log*

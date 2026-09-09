@@ -26,6 +26,6 @@ Sem convite válido, a página informa que o grupo estará disponível em breve;
 - `Referrer-Policy` via meta `no-referrer` evita enviar a URL de origem no cabeçalho Referer ao navegar para o convite. O botão também usa `noreferrer`, `noopener` e `nofollow`. Isso não interfere nos dados enviados explicitamente pelo Meta Pixel após consentimento.
 - Nenhum destino é lido de parâmetros da URL. Convites precisam usar HTTPS e passar pela validação de domínio/caminho.
 - Não há autenticação nem validação de pagamento nesta página. `noindex` não é controle de acesso e não substitui aprovação de participantes no WhatsApp.
-- Não foram adicionados cabeçalhos de servidor incompatíveis com a exportação estática. Políticas adicionais de servidor devem ser configuradas e verificadas na Hostinger conforme o ambiente de publicação.
+- A implantação agora usa Node.js para o painel próprio de métricas (ver `analytics.md`). `/obrigado/` continua pré-renderizada. O painel e suas APIs têm cabeçalhos adicionais de segurança, sem bloquear os iframes dos games.
 
 Referência de implementação do snippet base: https://help.shopify.com/en/manual/promoting-marketing/pixels/custom-pixels/code (exemplo oficial de integração do Meta Pixel). Documentação da Meta: https://developers.facebook.com/docs/meta-pixel/ (indisponível para consulta automática durante a implementação).

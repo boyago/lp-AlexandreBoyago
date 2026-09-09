@@ -7,10 +7,12 @@
   },
   "scripts": {
     "dev": "next dev",
+    "start": "next start",
     "build": "next build --webpack"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
+    "mysql2": "^3.24.4",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
