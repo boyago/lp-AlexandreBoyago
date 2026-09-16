@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, Crosshair, Play } from '@phosphor-icons/react'
 import { createRetroAudio } from './retroAudio'
+import TouchGameControls from './TouchGameControls'
 
 // Canyon Strike: releitura fiel do River Raid (Activision, Atari 2600, 1982).
 // Elementos originais: rio vertical que estreita e se abre, ilhas, navios-tanque, helicópteros,
@@ -209,7 +210,10 @@ export default function RiverRaidGame() {
       <canvas ref={canvasRef} width={W} height={H} />
       {!started && <GameIntro eyebrow="VOO · ESTILO RIVER RAID (1982)" title="Canyon Strike" text="Siga o rio sem tocar as margens. Atire (espaço) em navios, helicópteros, jatos e na ponte no fim de cada setor. Sobrevoe os depósitos FUEL para abastecer. ↑ acelera, ↓ reduz." onStart={reset} />}
       {hud.over && <GameIntro eyebrow="MISSÃO ENCERRADA" title={`${hud.score} pontos`} text={`Você chegou ao setor ${hud.sector}. Voe devagar nos trechos estreitos e nunca deixe o tanque zerar.`} onStart={reset} button="VOAR DE NOVO" />}
-      {started && !hud.over && <div className="side-controls">{hold('arrowleft', 'Voar para esquerda', ArrowLeft)}{hold('fire', 'Atirar', Crosshair)}{hold('arrowright', 'Voar para direita', ArrowRight)}</div>}
+      {started && !hud.over && <>
+        <div className="side-controls desktop-game-controls">{hold('arrowleft', 'Voar para esquerda', ArrowLeft)}{hold('fire', 'Atirar', Crosshair)}{hold('arrowright', 'Voar para direita', ArrowRight)}</div>
+        <TouchGameControls onMove={(x, y) => { setKey('arrowleft', x < -0.28); setKey('arrowright', x > 0.28); setKey('arrowup', y < -0.42); setKey('arrowdown', y > 0.42) }} actions={[{ label: 'FOGO', ariaLabel: 'Atirar', primary: true, onChange: (down) => setKey('fire', down) }]} />
+      </>}
     </div>
   )
 }

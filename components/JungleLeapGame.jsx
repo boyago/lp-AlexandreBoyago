@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Play } from '@phosphor-icons/react'
 import { createRetroAudio } from './retroAudio'
+import TouchGameControls from './TouchGameControls'
 
 // Jungle Leap: releitura fiel do Pitfall! (Activision, Atari 2600, 1982).
 // 255 telas encadeadas com toras (paradas ou rolando, tiram pontos), poços de piche e areia movediça,
@@ -304,13 +305,13 @@ export default function JungleLeapGame() {
       {!started && <GameIntro eyebrow="AVENTURA · ESTILO PITFALL! (1982)" title="Jungle Leap" text="Atravesse a selva tela por tela em 20 minutos. Pule toras e poços, cruze a lagoa pelas cabeças dos jacarés quando a boca estiver fechada, balance no cipó, desça pela escada e fuja do escorpião. Cascavéis e fogueiras guardam 32 tesouros de 2000 a 5000 pontos." onStart={reset} />}
       {hud.over && <GameIntro eyebrow={hud.lives <= 0 ? 'FIM DA EXPEDIÇÃO' : 'TEMPO ESGOTADO'} title={`${hud.score} pontos`} text={`Você chegou à tela ${hud.room} e achou ${hud.found} tesouros. No subterrâneo cada tela vale por três.`} onStart={reset} button="EXPLORAR DE NOVO" />}
       {started && !hud.over && (
-        <div className="side-controls dpad-controls">
+        <><div className="side-controls dpad-controls desktop-game-controls">
           {hold('arrowleft', 'Andar para esquerda', ArrowLeft)}
           {hold('arrowdown', 'Descer', ArrowDown)}
           {hold('arrowup', 'Subir', ArrowUp)}
           {hold('arrowright', 'Andar para direita', ArrowRight)}
           {hold('jump', 'Pular', ArrowUp, 'jump-button')}
-        </div>
+        </div><TouchGameControls onMove={(x, y) => { setKey('arrowleft', x < -0.28); setKey('arrowright', x > 0.28); setKey('arrowup', y < -0.42); setKey('arrowdown', y > 0.42) }} actions={[{ label: 'PULAR', ariaLabel: 'Pular ou soltar o cipó', primary: true, onChange: (down) => setKey('jump', down) }]} /></>
       )}
     </div>
   )

@@ -252,7 +252,7 @@ export default function MiniGameHub({ selected, onSelect, raceLive, onRaceLiveCh
     <div className="game-hub">
       <div className="game-stage" ref={stageRef} role="tabpanel" aria-label={`${current.playable ? 'Jogar' : 'Ver prévia de'} ${current.title}`}>
         <div className="game-stage-bar"><span><GameController weight="fill" /> AI GAME ARCADE / {current.title}</span><div><i className={!current.playable ? 'preview-dot' : ''} /><b>{current.playable ? 'JOGÁVEL NA LP' : 'PRÉVIA VISUAL'}</b></div></div>
-        {selected === 'canto' && <EmbeddedWebGame src="/games/canto-azul/index.html" title="Canto Azul, aventura pixel art brasileira sobre natureza e preservação" />}
+        {selected === 'canto' && <EmbeddedWebGame src="/games/canto-azul/index.html" title="Canto Azul, aventura pixel art brasileira sobre natureza e preservação" mobileControls />}
         {selected === 'patrol' && <ActualGameEmbed />}
         {selected === 'orbit' && <OrbitGame />}
         {selected === 'prompt' && <MemoryGame />}
