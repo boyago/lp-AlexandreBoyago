@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeft, ArrowRight, ArrowUp, Crosshair, GameController, Play, Rocket, Sparkle } from '@phosphor-icons/react'
 import ActualGameEmbed from './ActualGameEmbed'
+import EmbeddedWebGame from './EmbeddedWebGame'
 import EnduroGame from './EnduroGame'
 import RiverRaidGame from './RiverRaidGame'
 import FrontierPreview from './FrontierPreview'
@@ -11,6 +12,7 @@ import JungleLeapGame from './JungleLeapGame'
 import { createRetroAudio } from './retroAudio'
 
 const games = [
+  { id: 'canto', title: 'Canto Azul', genre: 'Aventura e conservação', icon: '🦜', color: 'forest', playable: true, featured: true },
   { id: 'frontier', title: 'Era Racing', genre: 'Clássicos x Modernos x F1', icon: '🏁', color: 'cinematic', art: '/images/era-racing-blender.png', playable: true, preview3d: true },
   { id: 'patrol', title: 'Tupã Patrulha', genre: 'Mundo aberto', icon: '🚓', color: 'violet', art: '/images/tupa-patrulha-gameplay.png', playable: true },
   { id: 'orbit', title: 'Orbit Runner', genre: 'Arcade espacial', icon: '🚀', color: 'blue', playable: true },
@@ -23,6 +25,10 @@ const games = [
 
 function GameCardArtwork({ game }) {
   if (game.art) return <Image src={game.art} alt="" fill sizes="(max-width: 640px) 92vw, (max-width: 980px) 44vw, 24vw" />
+
+  if (game.id === 'canto') {
+    return <span className="card-scene scene-canto" aria-hidden="true"><span className="scene-canto-sun" /><span className="scene-canto-hills" /><span className="scene-canto-trees" /><span className="scene-canto-bird" /><Image className="scene-canto-hero-image" src="/images/canto-azul-henrique.png" alt="" width={80} height={100} /></span>
+  }
 
   if (game.id === 'orbit') {
     return <span className="card-scene scene-orbit" aria-hidden="true"><span className="scene-stars" /><span className="scene-orbit-planet" /><span className="scene-asteroid asteroid-one" /><span className="scene-asteroid asteroid-two" /><span className="scene-orbit-ship" /></span>
@@ -246,6 +252,7 @@ export default function MiniGameHub({ selected, onSelect, raceLive, onRaceLiveCh
     <div className="game-hub">
       <div className="game-stage" ref={stageRef} role="tabpanel" aria-label={`${current.playable ? 'Jogar' : 'Ver prévia de'} ${current.title}`}>
         <div className="game-stage-bar"><span><GameController weight="fill" /> AI GAME ARCADE / {current.title}</span><div><i className={!current.playable ? 'preview-dot' : ''} /><b>{current.playable ? 'JOGÁVEL NA LP' : 'PRÉVIA VISUAL'}</b></div></div>
+        {selected === 'canto' && <EmbeddedWebGame src="/games/canto-azul/index.html" title="Canto Azul, aventura pixel art brasileira sobre natureza e preservação" />}
         {selected === 'patrol' && <ActualGameEmbed />}
         {selected === 'orbit' && <OrbitGame />}
         {selected === 'prompt' && <MemoryGame />}
@@ -255,13 +262,13 @@ export default function MiniGameHub({ selected, onSelect, raceLive, onRaceLiveCh
         {selected === 'jungle' && <JungleLeapGame />}
         {selected === 'frontier' && <FrontierPreview live={raceLive} onLiveChange={onRaceLiveChange} />}
       </div>
-      <div className="portal-heading"><div><span>ESCOLHA SEU PRÓXIMO JOGO</span><strong>Catálogo AI Game Arcade</strong></div><small>8 JOGÁVEIS · ERA RACING EM BETA</small></div>
+      <div className="portal-heading"><div><span>ESCOLHA SEU PRÓXIMO JOGO</span><strong>Catálogo AI Game Arcade</strong></div><small>9 JOGÁVEIS · CANTO AZUL É NOVIDADE</small></div>
       <div className="game-selector" role="tablist" aria-label="Catálogo de games">
         {games.map((game, index) => (
-          <button key={game.id} type="button" role="tab" aria-selected={selected === game.id} className={`portal-game-card ${game.color} ${game.id === 'frontier' ? 'portal-card-featured' : ''} ${selected === game.id ? 'active' : ''}`} onClick={() => chooseGame(game)} data-analytics-event="game_select" data-game-id={game.id}>
+          <button key={game.id} type="button" role="tab" aria-selected={selected === game.id} className={`portal-game-card ${game.color} ${game.featured ? 'portal-card-featured' : ''} ${selected === game.id ? 'active' : ''}`} onClick={() => chooseGame(game)} data-analytics-event="game_select" data-game-id={game.id}>
             <span className="portal-card-art">
               <GameCardArtwork game={game} />
-              <span className="portal-card-topline"><b>{game.preview3d ? 'BLENDER 3D' : 'JOGÁVEL'}</b><small>{String(index + 1).padStart(2, '0')}</small></span>
+              <span className="portal-card-topline"><b>{game.id === 'canto' ? 'NOVO GAME' : game.preview3d ? 'BLENDER 3D' : 'JOGÁVEL'}</b><small>{String(index + 1).padStart(2, '0')}</small></span>
               <span className="portal-card-play"><Play weight="fill" /></span>
             </span>
             <span className="portal-card-meta"><span className="portal-card-copy"><small>{game.genre}</small><strong>{game.title}</strong></span><span className="portal-card-action">{game.playable ? 'JOGAR' : 'VER PRÉVIA'} <ArrowRight /></span></span>

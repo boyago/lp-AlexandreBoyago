@@ -23,6 +23,7 @@ import {
 } from '@phosphor-icons/react'
 import alexandrePhoto from '../assets/alexandre.png'
 import MiniGameHub from '../components/MiniGameHub'
+import HeroGameCarousel from '../components/HeroGameCarousel'
 import CookiePreferencesButton from '../components/CookiePreferencesButton'
 import { courseAgenda as agenda, courseFaq as faqItems, courseFaqSchema as faqSchema } from '../lib/course-content.mjs'
 
@@ -53,34 +54,6 @@ function CheckoutLink({ className = '', children, onUnavailable, label }) {
     if (!checkoutUrl) { event.preventDefault(); onUnavailable() }
   }
   return <a className={className} href={checkoutUrl || '#oferta'} target={checkoutUrl ? '_blank' : undefined} onClick={handleClick} aria-label={label} data-analytics-event={checkoutUrl ? 'checkout_click' : undefined} data-button-id={className.split(' ')[0]} rel={checkoutUrl ? 'noopener noreferrer' : undefined}>{children}</a>
-}
-
-function GamePreview({ onPlay }) {
-  const goToPlayground = (event) => {
-    event.preventDefault()
-    onPlay()
-    document.getElementById('playground')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    window.history.replaceState(null, '', '#playground')
-  }
-
-  return (
-    <a className="hero-visual hero-patrol-preview" href="#playground" onClick={goToPlayground} aria-label="Jogar Era Racing na página" data-analytics-event="game_open" data-game-id="frontier" data-button-id="hero-racing">
-      <div className="game-preview-window">
-        <div className="window-bar"><div className="window-dots"><i /><i /><i /></div><span>BLENDER 3D + IA</span><span className="online"><i /> BETA JOGÁVEL</span></div>
-        <div className="hero-game-poster">
-          <Image src="/images/era-racing-blender.png" alt="Era Racing: Fusca e Fórmula 1 alinhados na pista 3D criada no Blender" fill sizes="(max-width: 1080px) 92vw, 48vw" preload />
-          <div className="hero-game-poster-shade" />
-          <div className="hero-game-poster-copy">
-            <b><Play weight="fill" /> JOGAR ERA RACING</b>
-          </div>
-        </div>
-        <div className="preview-caption">
-          <div><span>CLÁSSICOS, ESPORTIVOS E F1 NA MESMA PISTA</span><strong>Era Racing</strong></div>
-          <span className="preview-jump">JOGAR NA PÁGINA <ArrowRight weight="bold" /></span>
-        </div>
-      </div>
-    </a>
-  )
 }
 
 function FAQ() {
@@ -138,7 +111,7 @@ export default function Home() {
           </div>
           <div className="trust-row" aria-label="Destaques da imersão"><span><CheckCircle weight="fill" /> Demonstrações práticas</span><span><CheckCircle weight="fill" /> Construção ao vivo</span><span><CheckCircle weight="fill" /> Investimento único</span></div>
         </div>
-        <GamePreview onPlay={() => { setSelectedGame('frontier'); setRaceLive(true) }} />
+        <HeroGameCarousel onPlay={(gameId) => { setSelectedGame(gameId); setRaceLive(gameId === 'frontier') }} />
       </section>
 
       <section className="proof-strip" aria-label="Experiência do especialista"><p><strong>26+ anos</strong> criando tecnologia</p><i /><p><strong>9.500+</strong> alunos</p><i /><p><strong>Uma imersão.</strong> Um projeto real no ar.</p></section>
@@ -186,7 +159,7 @@ export default function Home() {
 
       <section className="arcade-showcase" id="playground">
         <div className="section-shell">
-          <div className="arcade-head"><div><span className="section-kicker light-kicker">// SEU PORTAL DE GAMES COM IA</span><h2>Oito ideias. <br /><span>Todas para jogar agora.</span></h2></div><p>Use os cards para trocar de experiência sem sair da página. Experimente também o Era Racing: uma corrida 3D com modelos criados no Blender, agora em versão beta para navegador.</p></div>
+          <div className="arcade-head"><div><span className="section-kicker light-kicker">// SEU PORTAL DE GAMES COM IA</span><h2>Nove ideias. <br /><span>Todas para jogar agora.</span></h2></div><p>Use os cards para trocar de experiência sem sair da página. Conheça também Canto Azul, uma aventura brasileira sobre exploração, natureza e preservação.</p></div>
           <MiniGameHub selected={selectedGame} onSelect={setSelectedGame} raceLive={raceLive} onRaceLiveChange={setRaceLive} />
         </div>
       </section>

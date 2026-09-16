@@ -596,6 +596,7 @@ footer { background: #070709; border-top: 1px solid rgba(255,255,255,.1); }
 .game-selector > button.portal-game-card.cyan { --card-accent: #47dbda; }
 .game-selector > button.portal-game-card.gold { --card-accent: #ffc64d; }
 .game-selector > button.portal-game-card.cinematic { --card-accent: #c8ff2e; }
+.game-selector > button.portal-game-card.forest { --card-accent: #59e0b0; }
 .game-selector > button.portal-game-card:hover { transform: translateY(-7px); border-color: color-mix(in srgb, var(--card-accent) 70%, white 5%); box-shadow: 0 24px 52px rgba(0,0,0,.34), 0 0 28px color-mix(in srgb, var(--card-accent) 16%, transparent); }
 .game-selector > button.portal-game-card.active { border-color: var(--card-accent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--card-accent) 24%, transparent), 0 22px 48px rgba(0,0,0,.34); }
 .game-selector > button.portal-game-card > .portal-card-art { width: 100%; height: auto; flex: 0 0 auto; aspect-ratio: 1.48; border-radius: 0; position: relative; overflow: hidden; display: block; background: #111118; isolation: isolate; }
@@ -618,6 +619,52 @@ footer { background: #070709; border-top: 1px solid rgba(255,255,255,.1); }
 .portal-card-action { flex: 0 0 auto; display: flex; align-items: center; gap: 5px; color: var(--card-accent); font: 700 7px/1 'Space Grotesk'; letter-spacing: .08em; }
 .portal-card-action svg { width: 12px; height: 12px; transition: transform .2s ease; }
 .portal-game-card:hover .portal-card-action svg { transform: translateX(3px); }
+
+/* Destaques rotativos do arcade */
+.hero-game-carousel { min-width: 0; position: relative; }
+.hero-game-carousel .hero-patrol-preview { display: block; }
+.hero-game-carousel .game-preview-window { overflow: hidden; }
+.hero-game-slide-copy { position: absolute; z-index: 3; inset: 0; padding: clamp(24px, 4vw, 46px); display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; pointer-events: none; }
+.hero-game-slide-copy > span { color: var(--lime); font: 700 8px/1 'Space Grotesk'; letter-spacing: .15em; text-transform: uppercase; }
+.hero-game-slide-copy > strong { margin-top: 9px; color: #fff; font: 700 clamp(30px, 4vw, 52px)/.92 'Space Grotesk'; letter-spacing: -.055em; text-shadow: 0 4px 28px rgba(0,0,0,.72); }
+.hero-game-slide-copy > p { max-width: 390px; margin: 10px 0 18px; color: #edf2ef; font-size: 11px; line-height: 1.55; text-shadow: 0 2px 16px #000; }
+.hero-game-slide-copy > b { min-height: 43px; padding: 0 16px; border-radius: 9px; display: inline-flex; align-items: center; gap: 8px; color: #08090a; background: var(--lime); font: 700 9px/1 'Space Grotesk'; letter-spacing: .05em; box-shadow: 0 12px 35px rgba(0,0,0,.5); }
+.hero-game-slide-copy > b svg { width: 14px; height: 14px; }
+.hero-game-carousel .hero-game-poster-shade { background: linear-gradient(90deg, rgba(3,6,8,.74) 0%, rgba(3,6,8,.28) 58%, rgba(3,6,8,.12) 100%), linear-gradient(0deg, rgba(3,6,8,.48), transparent 60%); }
+.hero-game-carousel .hero-patrol-preview:hover .hero-game-poster-shade { background: linear-gradient(90deg, rgba(3,6,8,.68) 0%, rgba(3,6,8,.22) 58%, rgba(3,6,8,.08) 100%), linear-gradient(0deg, rgba(3,6,8,.4), transparent 60%); }
+.hero-carousel-controls { position: absolute; z-index: 5; right: 18px; bottom: 91px; display: flex; align-items: center; gap: 10px; }
+.hero-carousel-controls > button { width: 34px; height: 34px; border: 1px solid rgba(255,255,255,.25); border-radius: 50%; display: grid; place-items: center; color: #fff; background: rgba(5,8,9,.72); backdrop-filter: blur(10px); cursor: pointer; }
+.hero-carousel-controls > button svg { width: 14px; height: 14px; }
+.hero-carousel-controls > div { display: flex; gap: 5px; }
+.hero-carousel-controls > div button { width: 18px; height: 5px; padding: 0; border: 0; border-radius: 20px; background: rgba(255,255,255,.36); cursor: pointer; transition: width .2s ease, background .2s ease; }
+.hero-carousel-controls > div button.active { width: 35px; background: var(--lime); }
+
+/* Arte leve do Canto Azul, construída com os próprios assets do game. */
+.hero-canto-art, .scene-canto { background: linear-gradient(180deg, #5aaed0 0 48%, #3d8b67 49% 100%); }
+.canto-sun, .scene-canto-sun { position: absolute; width: 78px; height: 78px; top: 13%; right: 12%; border-radius: 50%; background: #ffe889; box-shadow: 0 0 55px rgba(255,232,137,.55); }
+.canto-hills, .scene-canto-hills { position: absolute; inset: 38% -5% 0; background: linear-gradient(145deg, transparent 0 12%, #6fb27c 12% 30%, transparent 30%), linear-gradient(35deg, transparent 0 20%, #4f956a 20% 48%, transparent 48%), #2f7655; clip-path: polygon(0 35%, 14% 8%, 30% 34%, 46% 0, 62% 32%, 78% 6%, 100% 38%, 100% 100%, 0 100%); }
+.canto-trees, .scene-canto-trees { position: absolute; inset: 61% 0 0; opacity: .9; background: radial-gradient(ellipse at 8% 20%, #184d38 0 10%, transparent 11%), radial-gradient(ellipse at 23% 35%, #216447 0 12%, transparent 13%), radial-gradient(ellipse at 43% 12%, #174d36 0 11%, transparent 12%), radial-gradient(ellipse at 67% 30%, #256b49 0 13%, transparent 14%), radial-gradient(ellipse at 88% 10%, #174d36 0 12%, transparent 13%), linear-gradient(#174c35, #0d3227); }
+.canto-bird, .scene-canto-bird { position: absolute; z-index: 2; width: 38px; height: 18px; border-radius: 70% 20% 70% 20%; background: #1767d2; transform: rotate(-12deg); box-shadow: inset 0 -5px #0c3a87; }
+.canto-bird::before, .scene-canto-bird::before { content: ''; position: absolute; width: 25px; height: 12px; top: -7px; left: 7px; border-radius: 100% 0; background: #2795ee; transform: rotate(-18deg); }
+.canto-bird::after, .scene-canto-bird::after { content: ''; position: absolute; width: 14px; height: 8px; right: -10px; top: 4px; clip-path: polygon(0 0, 100% 50%, 0 100%); background: #ffd54c; }
+.canto-bird-one { top: 19%; left: 62%; transform: scale(.8) rotate(-12deg); }
+.canto-bird-two { top: 29%; left: 74%; transform: scale(.55) rotate(8deg); }
+.hero-game-poster img.canto-hero-image { position: absolute; z-index: 2; inset: auto auto 0 69%; width: auto; height: 78%; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 14px 10px rgba(0,0,0,.45)); }
+.scene-canto { width: 100%; height: 100%; position: absolute; inset: 0; overflow: hidden; }
+.scene-canto-sun { width: 44px; height: 44px; }
+.scene-canto-hills { inset: 32% -5% 0; }
+.scene-canto-trees { inset: 60% 0 0; }
+.scene-canto-bird { top: 23%; left: 67%; transform: scale(.65) rotate(-12deg); }
+.scene-canto-hero-image { position: absolute; z-index: 2; left: 12%; bottom: -3%; width: auto; height: 88%; object-fit: contain; image-rendering: pixelated; filter: drop-shadow(0 8px 8px rgba(0,0,0,.42)); }
+
+@media (max-width: 680px) {
+  .hero-game-slide-copy { padding: 22px; }
+  .hero-game-slide-copy > p { max-width: 260px; margin-bottom: 12px; font-size: 9px; }
+  .hero-game-slide-copy > b { min-height: 38px; padding: 0 12px; font-size: 8px; }
+  .hero-carousel-controls { right: 12px; bottom: 83px; }
+  .hero-carousel-controls > button { width: 30px; height: 30px; }
+  .hero-game-poster img.canto-hero-image { left: 67%; height: 74%; }
+}
 
 .card-scene { position: absolute; z-index: 0; inset: 0; display: block; overflow: hidden; }
 .card-scene > span, .card-scene span > span { position: absolute; display: block; }
