@@ -46,11 +46,28 @@ export default function TouchGameControls({ onMove, actions = [] }) {
     setKnob({ x: 0, y: 0 })
     onMove(0, 0)
   }
+  const pressDirection = (event, x, y) => {
+    event.preventDefault()
+    event.stopPropagation()
+    event.currentTarget.setPointerCapture?.(event.pointerId)
+    const radius = (padRef.current?.getBoundingClientRect().width ?? 118) * 0.3
+    setKnob({ x: x * radius, y: y * radius })
+    onMove(x, y)
+  }
+  const releaseDirection = (event) => {
+    event.preventDefault()
+    setKnob({ x: 0, y: 0 })
+    onMove(0, 0)
+  }
 
   return (
     <div className="touch-game-controls" aria-label="Controles para jogar pelo celular">
       <div ref={padRef} className="touch-joystick" role="application" aria-label="Joystick de movimento" onPointerDown={start} onPointerMove={(event) => { if (event.currentTarget.hasPointerCapture(event.pointerId)) update(event) }} onPointerUp={stop} onPointerCancel={stop}>
         <span className="touch-joystick-guides" aria-hidden="true">‹ <i>▲</i> › <b>▼</b></span>
+        <button type="button" className="touch-direction-zone up" aria-label="Mover para cima" onPointerDown={(event) => pressDirection(event, 0, -1)} onPointerUp={releaseDirection} onPointerCancel={releaseDirection} />
+        <button type="button" className="touch-direction-zone right" aria-label="Mover para direita" onPointerDown={(event) => pressDirection(event, 1, 0)} onPointerUp={releaseDirection} onPointerCancel={releaseDirection} />
+        <button type="button" className="touch-direction-zone down" aria-label="Mover para baixo" onPointerDown={(event) => pressDirection(event, 0, 1)} onPointerUp={releaseDirection} onPointerCancel={releaseDirection} />
+        <button type="button" className="touch-direction-zone left" aria-label="Mover para esquerda" onPointerDown={(event) => pressDirection(event, -1, 0)} onPointerUp={releaseDirection} onPointerCancel={releaseDirection} />
         <span className="touch-joystick-knob" style={{ transform: `translate(${knob.x}px, ${knob.y}px)` }} />
       </div>
       <div className="touch-action-buttons">
