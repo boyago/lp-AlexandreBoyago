@@ -8,15 +8,12 @@ export default function EmbeddedWebGame({ src, title, mobileControls = false }) 
   const gameRef = useRef(null)
   const iframeRef = useRef(null)
   const pressedRef = useRef(new Set())
-  const actionCodeRef = useRef('Enter')
   const keyData = {
     ArrowLeft: { key: 'ArrowLeft', code: 'ArrowLeft', keyCode: 37 },
     ArrowRight: { key: 'ArrowRight', code: 'ArrowRight', keyCode: 39 },
     ArrowUp: { key: 'ArrowUp', code: 'ArrowUp', keyCode: 38 },
     ArrowDown: { key: 'ArrowDown', code: 'ArrowDown', keyCode: 40 },
     Space: { key: ' ', code: 'Space', keyCode: 32 },
-    KeyX: { key: 'x', code: 'KeyX', keyCode: 88 },
-    Enter: { key: 'Enter', code: 'Enter', keyCode: 13 },
   }
   const wakeGame = () => {
     const win = iframeRef.current?.contentWindow
@@ -35,19 +32,12 @@ export default function EmbeddedWebGame({ src, title, mobileControls = false }) 
     Object.defineProperty(event, 'which', { get: () => data.keyCode })
     win.dispatchEvent(event)
   }
+  // Eixo horizontal responde cedo (andar); vertical só quando o polegar vai
+  // claramente para cima/baixo, para uma corrida em diagonal não virar pulo.
   const move = (x, y) => {
-    setKey('ArrowLeft', x < -0.28); setKey('ArrowRight', x > 0.28)
-    setKey('ArrowUp', y < -0.42); setKey('ArrowDown', y > 0.42)
-  }
-  const setAction = (down) => {
-    const win = wakeGame()
-    if (!win) return
-    if (down) {
-      const activeScenes = win.game?.scene?.getScenes?.(true) ?? []
-      const playing = activeScenes.some((scene) => scene.scene?.key === 'Game')
-      actionCodeRef.current = playing ? 'KeyX' : 'Enter'
-    }
-    setKey(actionCodeRef.current, down)
+    const vertical = Math.abs(y) > 0.5 && Math.abs(y) > Math.abs(x)
+    setKey('ArrowLeft', x < -0.25); setKey('ArrowRight', x > 0.25)
+    setKey('ArrowUp', vertical && y < 0); setKey('ArrowDown', vertical && y > 0)
   }
   const enterFullscreen = async () => {
     try {
@@ -70,7 +60,7 @@ export default function EmbeddedWebGame({ src, title, mobileControls = false }) 
         />
         {mobileControls && <button className="mobile-fullscreen-game" type="button" onClick={enterFullscreen}><ArrowsOut weight="bold" /> TELA CHEIA</button>}
       </div>
-      {mobileControls && <TouchGameControls onMove={move} actions={[{ label: 'OK / AÇÃO', ariaLabel: 'Confirmar seleção ou executar ação', onChange: setAction }, { label: 'ENTRAR', ariaLabel: 'Entrar na porta, descer ou mergulhar', onChange: (down) => setKey('ArrowDown', down) }, { label: 'PULAR', ariaLabel: 'Pular ou confirmar seleção', primary: true, onChange: (down) => setKey('Space', down) }]} />}
+      {mobileControls && <TouchGameControls onMove={move} actions={[{ label: 'PULAR', ariaLabel: 'Pular ou confirmar seleção', primary: true, onChange: (down) => setKey('Space', down) }]} />}
     </div>
   )
 }

@@ -897,11 +897,6 @@ a:focus-visible, button:focus-visible { outline: 3px solid #fff; outline-offset:
   .touch-joystick-guides i { top: 0; }
   .touch-joystick-guides b { bottom: 0; }
   .touch-joystick-knob { width: 53px; height: 53px; position: absolute; z-index: 2; left: calc(50% - 26.5px); top: calc(50% - 26.5px); border: 2px solid rgba(255,255,255,.54); border-radius: 50%; background: linear-gradient(145deg, #343b48, #171b22); box-shadow: 0 8px 17px rgba(0,0,0,.5), inset 0 1px rgba(255,255,255,.2); pointer-events: none; will-change: transform; }
-  .touch-direction-zone { position: absolute; z-index: 3; width: 44%; height: 44%; padding: 0; border: 0; background: transparent; touch-action: none; }
-  .touch-direction-zone.up { top: 0; left: 28%; }
-  .touch-direction-zone.right { top: 28%; right: 0; }
-  .touch-direction-zone.down { bottom: 0; left: 28%; }
-  .touch-direction-zone.left { top: 28%; left: 0; }
   .touch-action-buttons { display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
   .touch-action-buttons button { width: 70px; height: 70px; padding: 0; border: 1px solid rgba(255,255,255,.26); border-radius: 50%; color: #fff; background: linear-gradient(145deg, #303744, #151920); box-shadow: 0 9px 22px rgba(0,0,0,.42), inset 0 1px rgba(255,255,255,.14); font: 800 9px/1 'Space Grotesk'; letter-spacing: .06em; touch-action: none; }
   .touch-action-buttons button.primary { width: 78px; height: 78px; color: #0a0c08; border-color: var(--lime); background: var(--lime); }
